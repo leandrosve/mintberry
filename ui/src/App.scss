@@ -1,0 +1,26 @@
+@charset "utf-8";
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+
+$secondary:#eb7dd4;
+$secondary-invert:#fff;
+
+$custom-colors: (
+    "secondary":($secondary, $secondary-invert),
+);
+
+@import "../node_modules/bulma/sass/utilities/_all";
+
+$pagination-current-background-color: $primary ;
+$pagination-current-border-color: $primary;
+
+
+
+.react-datetime-picker__wrapper{
+    border: 0px;
+}
+
+
+
+@import "../node_modules/bulma/bulma.sass";

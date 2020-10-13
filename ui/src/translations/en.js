@@ -15,11 +15,17 @@ export default {
     createdDate: "Created at",
     expiracyDate: "Expiracy date",
     tasks: "Tasks",
+    activeTasksCount: "You have {{count}} active task/s",
+    noTasks: "No tasks have been found.",
+    finishedIn: "Finished in",
+    all: "All",
     fields: {
       username: "Username",
       name: "Name",
       password: "Password",
       passwordConfirm: "Confirm password",
+      title: "Title",
+      description: "Description",
       validation: {
         passwordWeak:
           "Must be at least eight (8) characters long and contain a number or symbol",
@@ -28,6 +34,7 @@ export default {
         required: "This field is required.",
         usernameTaken: "Username is already taken.",
         passwordsDontMatch: "Passwords don't match",
+        pastDate: "Must be a date that's later than right now."
       },
     },
     links: {
@@ -37,14 +44,17 @@ export default {
     success: {
       signup: "Signed up succesfully. Please log in!",
       taskDelete: "Task was successfully deleted!",
+      taskAdd: "Task was successfully added!",
     },
     error:{
       notFound:"Not found",
       resourceNotFound: "Sorry, we couldn't find the requested resource",
     },
     actions: {
+      add: "Add",
       taskAdd: "Add task",
       imageUpload: "Upload image",
+      avatarChange: "Change avatar",
       start: "Start",
       pause: "Pause",
       stop: "Stop",
@@ -54,11 +64,16 @@ export default {
     },
     dates: {
       thisMonth: "this month",
+      seconds: "second[s]",
+      minutes: "minute[s]",
+      hours: "hour[s]",
+      days: "day[s]",
     },
     confirmation: {
       accept: "Accept",
       cancel: "Cancel",
       taskDelete: "Are you sure you want to delete this task?",
+      taskStop: "Are you sure you want to cancel this task?",
     }
   },
 };

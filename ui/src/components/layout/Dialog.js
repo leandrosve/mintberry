@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Modal } from "bloomer/lib/components/Modal/Modal";
 import { ModalBackground } from "bloomer/lib/components/Modal/ModalBackground";
@@ -14,6 +14,8 @@ import { useTranslation } from "react-i18next";
 
 const Dialog = ({ handleCancel, handleAccept, isOpen,  message }) => {
     const { t } = useTranslation();
+
+  useEffect(()=>document.addEventListener("keydown", (e)=>{if(e.key === "Escape")handleCancel()}, false),[handleCancel]);
   return (
     <Modal isActive={isOpen} style={{zIndex:"1000"}}>
       <ModalBackground onClick={handleCancel} />

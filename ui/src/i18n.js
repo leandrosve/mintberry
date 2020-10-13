@@ -11,7 +11,7 @@ const resources = {
   es,
 };
 
-const setMomentLocale = () => moment.locale(i18n.language);
+const setMomentLocale = () =>{moment.locale(i18n.language)};
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -27,5 +27,7 @@ i18n
     setMomentLocale();
     i18n.on("languageChanged", () => setMomentLocale());
   });
+
+  
 
 export default i18n;

@@ -4,16 +4,17 @@ import { Tag } from "bloomer/lib/elements/Tag";
 import { useTranslation } from "react-i18next";
 import { ACTIVE, FINISHED, PAUSED, STOPPED } from "./states";
 
+
 const tagClassName = {
   [PAUSED]: "warning",
   [ACTIVE]: "primary",
   [STOPPED]: "danger",
-  [FINISHED]: "success",
+  [FINISHED]: "secondary",
 };
-const TaskState = ({state}) => {
+const TaskState = ({state, ...props}) => {
   const { t } = useTranslation();
   return (
-    <Tag isColor={tagClassName[state]} isSize="small">
+    <Tag isColor={tagClassName[state]} isSize="small" {...props}>
       {t(state)}
     </Tag>
   );

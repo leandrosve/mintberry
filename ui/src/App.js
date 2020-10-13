@@ -10,8 +10,7 @@ import DialogContainer from "./containers/DialogContainer";
 import i18n from "./i18n";
 import { useDispatch } from "react-redux";
 import { CLEAR_ALL_NOTIFICATIONS } from "./redux/actions/types";
-import ImagePicker from "./components/util/ImagePicker";
-import "./App.css";
+
 function App() {
   const dispatch = useDispatch();
   i18n.on("languageChanged", () => dispatch({ type: CLEAR_ALL_NOTIFICATIONS }));
@@ -22,7 +21,7 @@ function App() {
       <DialogContainer />
       <ModalContainer />
       <ReactTooltip delayUpdate={100} />
-      <Welcome data-tip="hello world" />
+      <Welcome data-tip="hello world" />   
       <Section>
         <TaskList />
       </Section>

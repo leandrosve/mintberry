@@ -1,11 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectDialog } from "../redux/reducers";
-import { deleteTask } from "../redux/actions/task";
+import { deleteTask, stopTask } from "../redux/actions/task";
 import Dialog from "../components/layout/Dialog";
 import { closeDialog } from "../redux/actions/dialog";
 
-const CONFIRMABLE_FUNCTIONS = { deleteTask };
+const CONFIRMABLE_FUNCTIONS = { deleteTask, stopTask };
 
 const DialogContainer = () => {
   const {

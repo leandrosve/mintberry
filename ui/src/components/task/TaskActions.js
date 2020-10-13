@@ -7,17 +7,17 @@ import FinishTaskButton from "./buttons/FinishTaskButton";
 import StartTaskButton from "./buttons/StartTaskButton";
 
 
-const TaskActions = ({ state }) => {
+const TaskActions = ({ state, taskId }) => {
   return (
     <>
      
-      {[READY, PAUSED].includes(state) && <StartTaskButton />}
+      {[READY, PAUSED].includes(state) && <StartTaskButton taskId={taskId} />}
 
-      {state === ACTIVE && <PauseTaskButton />}
+      {state === ACTIVE && <PauseTaskButton taskId={taskId} />}
 
-      {state === ACTIVE && <StopTaskButton />}
+      {state === ACTIVE && <StopTaskButton taskId={taskId}/>}
 
-      {state === ACTIVE && <FinishTaskButton />}
+      {state === ACTIVE && <FinishTaskButton taskId={taskId} />}
     </>
   );
 };

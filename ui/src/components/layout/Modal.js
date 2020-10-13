@@ -13,19 +13,27 @@ import { LevelRight } from "bloomer/lib/components/Level/LevelRight";
 import { Level } from "bloomer/lib/components/Level/Level";
 import ReactTooltip from "react-tooltip";
 
-const Modal = ({ children, isOpen = false, handleClose, hasFooter = true, style}) => {
-  useEffect(() => ReactTooltip.rebuild());
+const Modal = ({
+  children,
+  isOpen = false,
+  handleClose,
+  hasFooter = true,
+  style,
+}) => {
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  },[]);
   return (
-    <BulmaModal isActive={isOpen} >
-      <ModalBackground onClick={handleClose} />
-      <ModalContent>
-        <ModalCard style={{ margin: "auto", ...style}}>
+    <BulmaModal isActive={isOpen}>
+      <ModalBackground onClick={handleClose}/>
+     
+        <ModalCard style={{ margin: "auto", ...style }}>
           <ModalCardBody>{children}</ModalCardBody>
           {hasFooter && (
-            <ModalCardFooter>
-              <Level style={{ width: "100%" }}>
+            <ModalCardFooter style={{height:"20px"}}>
+              <Level style={{ width: "100%" }} isMobile={true}>
                 <LevelLeft />
-                <LevelRight>
+                <LevelRight className="m-0">
                   <LevelItem>
                     <div>
                       <Delete onClick={handleClose} />
@@ -36,7 +44,7 @@ const Modal = ({ children, isOpen = false, handleClose, hasFooter = true, style}
             </ModalCardFooter>
           )}
         </ModalCard>
-      </ModalContent>
+     
     </BulmaModal>
   );
 };
@@ -44,7 +52,7 @@ const Modal = ({ children, isOpen = false, handleClose, hasFooter = true, style}
 Modal.propTypes = {
   handleClose: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  hasFooter:PropTypes.bool,
+  hasFooter: PropTypes.bool,
 };
 
 export default Modal;

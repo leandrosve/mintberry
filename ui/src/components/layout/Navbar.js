@@ -12,6 +12,7 @@ import { openLoginForm, openRegisterForm } from "../../redux/actions/modal";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import ActiveTasksCounter from "../task/ActiveCounter";
 
 const Navbar = () => {
   const [isMenuActive, setIsMenuActive] = useState(false);
@@ -46,7 +47,10 @@ const Navbar = () => {
             </NavbarDropdown>
           </NavbarItem>
         </NavbarStart>
-        <NavbarEnd>         
+        <NavbarEnd>   
+          <NavbarItem className="is-hidden-touch">
+            <ActiveTasksCounter className="is-hidden-touch"/>
+            </NavbarItem>      
           <NavbarItem href="#login" onClick={() => dispatch(openLoginForm())}>
             {t("login")}
           </NavbarItem>

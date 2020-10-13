@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
 import { Label } from "bloomer/lib/elements/Form/Label";
 import { Control } from "bloomer/lib/elements/Form/Control";
 import { Field as FormikField, useField } from "formik";
 import { Field } from "bloomer/lib/elements/Form/Field/Field";
 import { Help } from "bloomer/lib/elements/Form/Help";
+import useFieldDecorations from "../hooks/useFieldDecorations";
 
 const TextField = ({ label, type, name, placeholder, help, isQuiet=false }) => {
-  const [field, meta] = useField(name);
-  const isEmpty = (field && field.value) ? field.value.length === 0 : true;
-  const shouldDisplayError = meta && (meta.touched || !isEmpty) && meta.error;
+  const meta = useField(name)[1];
   const [isActive, setIsActive] = useState(false);
-  const severity = shouldDisplayError ? isActive ? "info" : "danger" : !isEmpty ? "success" : null;
+  const [severity, error] = useFieldDecorations(meta, isActive)
   return (
     <Field onFocus={() => setIsActive(true)} onBlur={() => setIsActive(false)}>
       <Label>{label}</Label>
@@ -22,9 +21,9 @@ const TextField = ({ label, type, name, placeholder, help, isQuiet=false }) => {
             name={name}
             placeholder={placeholder}
           />       
-        {!isQuiet && (shouldDisplayError || help) && (
+        {!isQuiet && (error || help) && (
           <Help isColor={severity}>
-            {(shouldDisplayError && meta.error) || help}
+            {(error) || help}
           </Help>
         )}
       </Control>
@@ -41,4 +40,4 @@ TextField.propTypes = {
   isQuiet: PropTypes.bool,
 };
 
-export default TextField;
+export default memo(TextField);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Container } from "bloomer/lib/layout/Container";
 import { Title } from "bloomer/lib/elements/Title";
@@ -16,7 +16,11 @@ import DeleteTaskButton from "./buttons/DeleteTaskButton";
 import { Icon } from "bloomer/lib/elements/Icon";
 import moment from "moment";
 import { Subtitle } from "bloomer/lib/elements/Subtitle";
-import { FINISHED } from "./states";
+import { FINISHED, STOPPED } from "./states";
+import EditTaskButton from "./buttons/EditTaskButton";
+import imageList from "./imageList";
+import ImagePicker from "../util/ImagePicker";
+import FinishedInfo from "./FinishedInfo";
 
 const TaskDetail = ({
   id,
@@ -24,26 +28,46 @@ const TaskDetail = ({
   title,
   state,
   expiresAt,
+  startedAt,
+  finishedAt,
   description,
   createdAt,
 }) => {
   const { t } = useTranslation();
+  const [openImagePicker, setOpenImagePicker] = useState(false);
   return (
     <Container>
       <Level className="m-0">
         <LevelLeft>
-          <TaskAvatar src={image} alt={title} />
+          <TaskAvatar
+            style={{ cursor: "pointer" }}
+            data-tip={t("actions.avatarChange")}
+            src={image}
+            alt={title}
+            onClick={() => setOpenImagePicker(true)}
+          />
+          <ImagePicker
+            handlePick={(src) => {
+              console.log("asdasd");
+            }}
+            handleClose={() => setOpenImagePicker(false)}
+            images={imageList}
+            isOpen={openImagePicker}
+          />
           <Title style={{ display: "inline" }} className="m-0">
             {title}
-          </Title>{" "}
-          <TaskState state={state} />
+          </Title>
+          <TaskState state={state} className="ml-3" />
         </LevelLeft>
         <LevelRight>
-          {state !== FINISHED && <ExpiracyClock date={expiresAt} />}
+          {state === FINISHED ? (
+            <FinishedInfo startedAt={startedAt} finishedAt={finishedAt} />
+          ) : state !== STOPPED &&
+            <ExpiracyClock date={expiresAt} />
+          }
         </LevelRight>
       </Level>
-
-      <div className="block m-0">
+      <div className="block mb-2">
         <Subtitle isSize="5">{description}</Subtitle>
       </div>
       <div className="block m-0">
@@ -60,6 +84,7 @@ const TaskDetail = ({
           <TaskActions taskId={id} state={state} />
         </LevelLeft>
         <LevelRight>
+          <EditTaskButton />
           <DeleteTaskButton id={id} />
         </LevelRight>
       </Level>

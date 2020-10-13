@@ -52,7 +52,14 @@ const SignupForm = () => {
               type="password"
               name="passwordRepeat"
             />
-            <Level>
+            <Level>            
+              <LevelRight>
+                <LevelItem>
+                  <Button isColor="primary" type="submit" disabled={!isValid}>
+                  {t("signup")}
+                  </Button>
+                </LevelItem>
+              </LevelRight>
               <LevelLeft>
                 <LevelItem>
                   <Button
@@ -64,13 +71,6 @@ const SignupForm = () => {
                   </Button>
                 </LevelItem>
               </LevelLeft>
-              <LevelRight>
-                <LevelItem>
-                  <Button isColor="primary" type="submit" disabled={!isValid}>
-                  {t("signup")}
-                  </Button>
-                </LevelItem>
-              </LevelRight>
             </Level>
           </Container>
         </Form>

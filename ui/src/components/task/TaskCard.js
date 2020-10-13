@@ -19,7 +19,8 @@ import { openTaskDetail } from "../../redux/actions/modal";
 import TaskAvatar from "../util/TaskAvatar";
 import TaskActions from "./TaskActions";
 import TaskState from "./TaskState";
-import { FINISHED } from "./states";
+import { FINISHED, STOPPED } from "./states";
+import FinishedInfo from "./FinishedInfo";
 
 const TaskCard = ({
   id,
@@ -27,12 +28,14 @@ const TaskCard = ({
   description,
   image = "https://via.placeholder.com/128x128",
   state,
+  startedAt,
+  finishedAt,
   expiresAt,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   return (
-    <Card style={{ margin: "auto" }}>
+    <Card style={{ margin: "auto" }} className="mb-2 mt-2">
       <CardContent>
         <Media>
           <MediaContent>
@@ -46,7 +49,8 @@ const TaskCard = ({
                     <Title isSize="4" className="m-0">
                       {title} <TaskState state={state} />
                     </Title>
-                    {state !== FINISHED && (
+                    {state === FINISHED && <FinishedInfo startedAt={startedAt} finishedAt={finishedAt}/>}
+                    {![FINISHED, STOPPED].includes(state) && (
                       <>
                         <ExpiracyClock date={expiresAt} /> <br />
                       </>
@@ -55,15 +59,7 @@ const TaskCard = ({
                 </FlexBox>
               </LevelLeft>
               <LevelRight style={{ display: "flex", justifyContent: "center" }}>
-                <TaskActions state={state} />
-                <IconButton
-                  className="m-1"
-                  isColor="info"
-                  data-tip={t("actions.edit")}
-                  isOutlined
-                >
-                  <Icon className="fas fa-pen" />
-                </IconButton>
+                <TaskActions state={state} taskId={id}/>
                 <DeleteTaskButton className="m-1" id={id} />
               </LevelRight>
             </Level>
