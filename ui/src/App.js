@@ -10,6 +10,7 @@ import DialogContainer from "./containers/DialogContainer";
 import i18n from "./i18n";
 import { useDispatch } from "react-redux";
 import { CLEAR_ALL_NOTIFICATIONS } from "./redux/actions/types";
+import TasksContainer from "./containers/TasksContainer";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ function App() {
       <ReactTooltip delayUpdate={100} />
       <Welcome data-tip="hello world" />   
       <Section>
-        <TaskList />
+        <TasksContainer />
       </Section>
       <Footer />
     </div>

@@ -7,19 +7,19 @@ import {
   SET_TASKS_VISIBILITY_FILTER,
   DELETE_TASK_SUCCESS,
   EDIT_TASK_SUCCESS,
+  FETCH_TASKS_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
-  allTasks: tasks,
+  allTasks: [],
   visibilityFilter: "ALL",
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case EDIT_TASK_SUCCESS:
-      return { ...state, allTasks: allTasks(state.allTasks, action) };
+    case FETCH_TASKS_SUCCESS:     
+    case EDIT_TASK_SUCCESS:      
     case ADD_TASK_SUCCESS:
-      return { ...state, allTasks: allTasks(state.allTasks, action) };
     case DELETE_TASK_SUCCESS:
       return { ...state, allTasks: allTasks(state.allTasks, action) };
     case SET_TASKS_VISIBILITY_FILTER:
@@ -31,6 +31,8 @@ const reducer = (state = initialState, action) => {
 
 const allTasks = (state = tasks, { type, payload }) => {
   switch (type) {
+    case FETCH_TASKS_SUCCESS:
+        return payload;
     case EDIT_TASK_SUCCESS:
       return state.map((task) =>
         task.id === payload.task.id ? payload.task : task
