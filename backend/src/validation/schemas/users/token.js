@@ -5,5 +5,5 @@ module.exports = Joi.object({
   email: Joi.string().email().required(),
   id: Joi.number().required(),
   iat: Joi.number().required(),
-  exp: Joi.number().required(),
+  exp: Joi.number(),
 });

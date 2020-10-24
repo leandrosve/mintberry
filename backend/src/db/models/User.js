@@ -1,7 +1,9 @@
 const { Sequelize } = require("sequelize");
 var db = require("../");
 const Model = Sequelize.Model;
-class User extends Model {}
+
+class User extends Model {};
+
 User.init(
   {
     username: {

@@ -1,0 +1,65 @@
+const RefreshToken = require("../db/models/RefreshToken");
+const User = require("../db/models/User");
+const RequestError = require("../error/RequestError");
+const { generateTokensForUser, verifyRefreshToken } = require("../helpers/jwt");
+const { encryptPassword, comparePasswords } = require("../helpers/passwords");
+const loginSchema = require("../validation/schemas/users/login");
+const signupSchema = require("../validation/schemas/users/signup");
+
+exports.authenticateUser = async ({ email, password }) => {
+  validateLoginInfo({ email, password });
+  const user = await User.findOne({ where: { email } });
+  if (!user || !comparePasswords(password, user.password))
+    throw RequestError.forbidden("username and password do not match");
+  const credentials = generateTokensForUser(user);
+  if(credentials) await RefreshToken.create({token:credentials.refreshToken});
+  return credentials;
+};
+
+exports.refreshAuthentication = async (refreshToken) => {
+  if(!refreshToken) throw RequestError.invalidToken();
+  const currentRefreshToken = await RefreshToken.findOne({ where: { token: refreshToken } });
+  if (!currentRefreshToken) throw RequestError.invalidToken();
+  const user = await verifyRefreshToken(refreshToken);
+  if (!user) throw RequestError.invalidToken();
+  const newCredentials=generateTokensForUser(user);
+  await currentRefreshToken.update({token: newCredentials.refreshToken});
+  return newCredentials;
+};
+
+exports.invalidateAuthentication = async (refreshToken) => {
+  if(!refreshToken) throw RequestError.invalidToken();
+  const currentRefreshToken = await RefreshToken.findOne({ where: { token: refreshToken } });
+  console.log({currentRefreshToken});
+  if(!currentRefreshToken) throw RequestError.invalidToken();
+  await currentRefreshToken.destroy();
+  return true;
+};
+exports.createUser = async (userInfo) => {
+  validateUserInfo(userInfo);
+  const sanitizedUserInfo = sanitizeUserInfo(userInfo);
+  sanitizedUserInfo.password = encryptPassword(sanitizedUserInfo.password);
+  const user = await User.create(sanitizedUserInfo);
+  return user;
+};
+
+const validate = (schema, data) => {
+  const result = schema.validate(data);
+  if (result.error) {
+    throw result.error;
+  }
+  return true;
+};
+
+const validateLoginInfo = ({ email, password }) =>
+  validate(loginSchema, { email, password });
+
+const validateUserInfo = (userInfo) => validate(signupSchema, userInfo);
+
+const sanitizeUserInfo = (userInfo) => {
+  return {
+    username: userInfo.username,
+    email: userInfo.email.toLowerCase(),
+    password: userInfo.password,
+  };
+};

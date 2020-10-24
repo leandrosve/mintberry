@@ -1,5 +1,6 @@
-class RequestError {
+class RequestError extends Error {
     constructor(status, message, field){
+        super();
         this.status = status;
         this.error = {field, message}
     }
@@ -22,6 +23,10 @@ class RequestError {
 
     static invalidToken(){
         return this.unauthorized("Invalid Token")
+    }
+
+    static unhandled(){
+        return new RequestError(500, "Something went wrong.");
     }
 
 }   

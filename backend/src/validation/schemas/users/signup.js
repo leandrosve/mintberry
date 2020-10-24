@@ -1,27 +1,29 @@
-module.exports = {
-  email: {
-    isEmail: {
-      errorMessage: "Inavlid emailsssss",
-    },
-  },
-  username: {
-    isLength: {
-      errorMessage: "Invalid username",
-      options: { min: 3, max: 50 },
-    },
-  },
-  password: {
-    matches: {
-      options: [/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/],
-      errorMessage: "regex failed",
-    },
-  },
-  passwordConfirmation: {
-    custom: {
-      options: (value, { req }) => {
-        return value === req.body.password;
-      },
-      errorMessage: "Passwords do not match",
-    },
-  },
-};
+const Joi = require("joi");
+const RequestError = require("../../../error/RequestError");
+module.exports = Joi.object({
+  username: Joi.string()
+    .alphanum()
+    .min(1)
+    .max(300)
+    .required()
+    .error(RequestError.badRequest("Invalid username.", "username")),
+  email: Joi.string()
+    .email()
+    .required()
+    .error(RequestError.badRequest("Invalid email.", "email")),
+  password: Joi.string()
+    .pattern(new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/))
+    .required()
+    .error(
+      RequestError.badRequest(
+        "Password must be at least 8 characters and contain one uppercase and a number.",
+        "password"
+      )
+    ),
+  passwordConfirmation: Joi.any()
+    .valid(Joi.ref("password"))
+    .required()
+    .error(
+      RequestError.badRequest("Passwords do not match", "passwordConfirmation")
+    ),
+});

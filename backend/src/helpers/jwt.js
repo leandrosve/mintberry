@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const RequestError = require("../error/RequestError");
-const tokenSchema = require("../validation/schemas/users/token");
+const accessTokenSchema = require("../validation/schemas/users/token");
+const refreshTokenSchema = require("../validation/schemas/users/refreshToken");
 
 const extractToken = (req) => {
   const authHeader = req.headers["authorization"];
@@ -9,20 +10,22 @@ const extractToken = (req) => {
     : null;
 };
 
-const verifyToken = (token, secret) =>
-  new Promise((resolve, reject) => {
+const extractUser = (token, secret) =>
+  new Promise((resolve) => {
     jwt.verify(token, secret, (err, user) => {
-      if (err || tokenSchema.validate(user).error)
-        reject(RequestError.invalidToken());
-      resolve(user);
+      if (!err && user) resolve(user);
     });
   });
 
-const verifyAccessToken = (token) =>
-  verifyToken(token, process.env.ACCESS_TOKEN_SECRET);
+const verifyAccessToken = async (token) => {
+  const user = await extractUser(token, process.env.ACCESS_TOKEN_SECRET);
+  if (user && !accessTokenSchema.validate(user).error) return user;
+};
 
-const verifyRefreshToken = (token) =>
-  verifyToken(token, process.env.REFRESH_TOKEN_SECRET);
+const verifyRefreshToken = async (token) => {
+  const user = await extractUser(token, process.env.REFRESH_TOKEN_SECRET);
+  if (user && !refreshTokenSchema.validate(user).error) return user;
+};
 
 const generateTokensForUser = (user = {}) => {
   const accessToken = jwt.sign(
@@ -39,7 +42,6 @@ const generateTokensForUser = (user = {}) => {
 };
 
 module.exports = {
-  extractToken,
   verifyAccessToken,
   verifyRefreshToken,
   generateTokensForUser,

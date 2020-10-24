@@ -1,13 +1,9 @@
-module.exports = {
-  email: {
-    isEmail: {
-      errorMessage: "Invalid email",
-    },
-  },
-  password: {
-    isLength: {
-      options: { min: 1, max: 300 },
-      errorMessage: "cannot be empty",
-    },
-  },
-};
+const Joi = require("joi");
+const RequestError = require("../../../error/RequestError");
+module.exports = Joi.object({
+  email: Joi.string()
+    .email()
+    .required(),
+  password: Joi.string()
+    .required()
+}).error(RequestError.forbidden("Invalid credentials."));
