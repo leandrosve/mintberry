@@ -1,5 +1,5 @@
 const RequestError = require("../error/RequestError");
-const { extractToken, verifyAccessToken } = require("../helpers/jwt");
+const { extractTokenFromHeader, verifyAccessToken } = require("../helpers/jwt");
 
 const exceptedPaths = [
   "/api/users/login",
@@ -10,18 +10,18 @@ const exceptedPaths = [
 ];
 
 module.exports = async (req, res, next) => {
-  if (exceptedPaths.includes(req.path)) {
-    console.log(req.path);
-    return next();
-  }
   try {
-    const token = extractToken(req);
-    const user = await verifyAccessToken(token)
-    if(!user){
-      console.log("unauthorized")
+    if (exceptedPaths.includes(req.path)) {
+      return next();
     }
-    req.user=user
-    next()
+    const token = extractTokenFromHeader(req);
+    if(!token) throw RequestError.unauthorized("Invalid token");
+    const user = await verifyAccessToken(token);
+    if(!user){
+      throw RequestError.unauthorized("Invalid token");
+    }
+    req.user=user;
+    return next()
   } catch (error) {
     next(error)
   }

@@ -1,6 +1,5 @@
 const RequestError = require("../error/RequestError");
 const userService = require("../services/userService");
-const { generateTokensForUser } = require("../helpers/jwt");
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;

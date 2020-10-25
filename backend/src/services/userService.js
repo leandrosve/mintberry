@@ -3,6 +3,7 @@ const User = require("../db/models/User");
 const RequestError = require("../error/RequestError");
 const { generateTokensForUser, verifyRefreshToken } = require("../helpers/jwt");
 const { encryptPassword, comparePasswords } = require("../helpers/passwords");
+const { validate } = require("../helpers/validator");
 const loginSchema = require("../validation/schemas/users/login");
 const signupSchema = require("../validation/schemas/users/signup");
 
@@ -30,7 +31,6 @@ exports.refreshAuthentication = async (refreshToken) => {
 exports.invalidateAuthentication = async (refreshToken) => {
   if(!refreshToken) throw RequestError.invalidToken();
   const currentRefreshToken = await RefreshToken.findOne({ where: { token: refreshToken } });
-  console.log({currentRefreshToken});
   if(!currentRefreshToken) throw RequestError.invalidToken();
   await currentRefreshToken.destroy();
   return true;
@@ -43,13 +43,7 @@ exports.createUser = async (userInfo) => {
   return user;
 };
 
-const validate = (schema, data) => {
-  const result = schema.validate(data);
-  if (result.error) {
-    throw result.error;
-  }
-  return true;
-};
+
 
 const validateLoginInfo = ({ email, password }) =>
   validate(loginSchema, { email, password });

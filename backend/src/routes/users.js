@@ -1,7 +1,5 @@
 var express = require("express");
-const { validateSchema } = require("../middleware/validator");
 var router = express.Router();
-const refreshTokenSchema = require("../validation/schemas/users/refreshToken");
 const userController = require("../controllers/userController");
 
 
