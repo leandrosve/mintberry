@@ -1,5 +1,4 @@
-var express = require("express");
-var router = express.Router();
+var router = require("express").Router();
 const taskController = require("../controllers/taskController");
 
 router.get("/", taskController.retrieveTasks);

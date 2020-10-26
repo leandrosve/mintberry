@@ -11,27 +11,32 @@ exports.authenticateUser = async ({ email, password }) => {
   validateLoginInfo({ email, password });
   const user = await User.findOne({ where: { email } });
   if (!user || !comparePasswords(password, user.password))
-    throw RequestError.forbidden("username and password do not match");
+    throw RequestError.unauthorized("username and password do not match");
   const credentials = generateTokensForUser(user);
-  if(credentials) await RefreshToken.create({token:credentials.refreshToken});
+  if (credentials)
+    await RefreshToken.create({ token: credentials.refreshToken });
   return credentials;
 };
 
 exports.refreshAuthentication = async (refreshToken) => {
-  if(!refreshToken) throw RequestError.invalidToken();
-  const currentRefreshToken = await RefreshToken.findOne({ where: { token: refreshToken } });
+  if (!refreshToken) throw RequestError.invalidToken();
+  const currentRefreshToken = await RefreshToken.findOne({
+    where: { token: refreshToken },
+  });
   if (!currentRefreshToken) throw RequestError.invalidToken();
   const user = await verifyRefreshToken(refreshToken);
   if (!user) throw RequestError.invalidToken();
-  const newCredentials=generateTokensForUser(user);
-  await currentRefreshToken.update({token: newCredentials.refreshToken});
+  const newCredentials = generateTokensForUser(user);
+  await currentRefreshToken.update({ token: newCredentials.refreshToken });
   return newCredentials;
 };
 
 exports.invalidateAuthentication = async (refreshToken) => {
-  if(!refreshToken) throw RequestError.invalidToken();
-  const currentRefreshToken = await RefreshToken.findOne({ where: { token: refreshToken } });
-  if(!currentRefreshToken) throw RequestError.invalidToken();
+  if (!refreshToken) throw RequestError.invalidToken();
+  const currentRefreshToken = await RefreshToken.findOne({
+    where: { token: refreshToken },
+  });
+  if (!currentRefreshToken) throw RequestError.invalidToken();
   await currentRefreshToken.destroy();
   return true;
 };
@@ -42,8 +47,6 @@ exports.createUser = async (userInfo) => {
   const user = await User.create(sanitizedUserInfo);
   return user;
 };
-
-
 
 const validateLoginInfo = ({ email, password }) =>
   validate(loginSchema, { email, password });

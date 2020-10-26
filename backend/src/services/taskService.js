@@ -25,8 +25,9 @@ exports.retrieveTasksFromUser = async (user) => {
 exports.retrieveTaskFromUser = async (taskId, user) => {
   const task = await Task.findOne({ where: { id: taskId } });
   if (!task) throw RequestError.notFound("Could not find task");
-  if (task.userId !== user.id) throw RequestError.forbidden("The requested resource is not yours.");
-  return task;
+  if (task.userId !== user.id)
+    throw RequestError.forbidden("The requested resource is not yours.");
+  else return task;
 };
 
 const validateTaskInfo = (taskInfo) => validate(taskSchema, taskInfo);

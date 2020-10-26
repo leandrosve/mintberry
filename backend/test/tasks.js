@@ -1,7 +1,7 @@
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const server = require("../src/app");
-const { validAuthHeader } = require("./common");
+const { validAuthHeader } = require("./premises");
 
 chai.should();
 
