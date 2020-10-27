@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const RequestError = require("../error/RequestError");
 const accessTokenSchema = require("../validation/schemas/users/token");
 const refreshTokenSchema = require("../validation/schemas/users/refreshToken");
 

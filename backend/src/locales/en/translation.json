@@ -1,0 +1,8 @@
+{
+  "errors": {
+    "tasks":{
+      "notFound":"The requested task was not found"
+    }
+    
+  }
+}

@@ -1,5 +1,6 @@
+
 class RequestError extends Error {
-    constructor(status, message, field){
+    constructor(status, message, field){   
         super();
         this.status = status;
         this.error = {field, message}
@@ -14,7 +15,7 @@ class RequestError extends Error {
     }
 
     static notFound(message) {
-        return new RequestError(404, message || "Not found");
+        return new RequestError(404, message || "errors.notFound");
     }
 
     static unauthorized(message) {
@@ -22,11 +23,11 @@ class RequestError extends Error {
     }
 
     static invalidToken(){
-        return this.unauthorized("Invalid Token")
+        return this.unauthorized("errors.auth.invalidToken")
     }
 
     static unhandled(){
-        return new RequestError(500, "Something went wrong.");
+        return new RequestError(500, "errors.unhandled");
     }
 
 }   

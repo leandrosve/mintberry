@@ -11,7 +11,7 @@ exports.authenticateUser = async ({ email, password }) => {
   validateLoginInfo({ email, password });
   const user = await User.findOne({ where: { email } });
   if (!user || !comparePasswords(password, user.password))
-    throw RequestError.unauthorized("username and password do not match");
+    throw RequestError.unauthorized("errors.auth.login");
   const credentials = generateTokensForUser(user);
   if (credentials)
     await RefreshToken.create({ token: credentials.refreshToken });
@@ -19,13 +19,13 @@ exports.authenticateUser = async ({ email, password }) => {
 };
 
 exports.refreshAuthentication = async (refreshToken) => {
-  if (!refreshToken) throw RequestError.invalidToken();
+  if (!refreshToken) throw RequestError.badRequest("errors.auth.noToken");
+  const user = await verifyRefreshToken(refreshToken);
+  if (!user) throw RequestError.badRequest("errors.auth.malformedToken");
   const currentRefreshToken = await RefreshToken.findOne({
     where: { token: refreshToken },
   });
   if (!currentRefreshToken) throw RequestError.invalidToken();
-  const user = await verifyRefreshToken(refreshToken);
-  if (!user) throw RequestError.invalidToken();
   const newCredentials = generateTokensForUser(user);
   await currentRefreshToken.update({ token: newCredentials.refreshToken });
   return newCredentials;

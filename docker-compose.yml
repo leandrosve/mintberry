@@ -8,8 +8,8 @@ services:
   app:
     image: node:14.13.1-alpine
     ports:
-        - 8080:80
-        - 3030:3000
+        - 8081:8080
+        - 3031:3030
     volumes:
       - ./:/app/
     environment: 
@@ -25,7 +25,7 @@ services:
   db:
     image: mysql:5.7
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_DATABASE: mintberry
       MYSQL_ROOT_PASSWORD: root

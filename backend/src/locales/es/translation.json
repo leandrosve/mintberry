@@ -1,0 +1,41 @@
+{
+  "errors": {
+    "tasks": {
+
+      "forbidden": "La tarea solicitada no te pertenece.",
+      "notFound": "No se ha encontrado la tarea solicitada.",
+      "invalidTitle": "El título indicado es inválido.",
+      "invalidDescription": "La descripción indicada es inválida.",
+      "invalidExpiracyDate": "La fecha de expiración es inválida.",
+      "invalidImageURL": "La URL de la imágen es inválida",
+      "create": {
+        "error": "No se ha podido crear la tarea.",
+        "invalidAction": "La acción solicitada no exite."
+      },
+      "update": {
+        "invalid": "No se pudo modificar la tarea porque la información brindada es inválida.",
+        "isFinished": "No se puede modificar una tarea que ya está finalizada",
+        "isCancelled": "No se puede modificar una tarea que ha sido cancelada."
+      }
+    },
+    "users": {
+      "invalidUsername": "El nombre de usuario es inválido.",
+      "invalidEmail": "La dirección de correo electrónico es inválida.",
+      "weakPassword": "La contraseña debe tener al menos ocho (8) carácteres, contener una mayúscula y un número.",
+      "passwordConfirmation": "Las contraseñas no coinciden."
+    },
+    "auth": {
+      "invalidCredentials": "Las credenciales provistas no son válidas.",
+      "login": "El nombre de usuario y la contraseña no coinciden.",
+      "noToken": "No se ha provisto ningún token de autenticación.",
+      "malformedToken": "El token de autenticación está malformado",
+      "invalidToken": "El token provisto es inválido"
+    },
+    "notFound":"No se ha encontrado el recurso solicitado.",
+    "unhandled": "Lo sentimos, algo salió mal.",
+    "sequelize": {
+      "email_not_unique": "La dirección de correo electrónico ya se encuentra en el sistema.",
+      "username_not_unique": "El nombre de usuario ya se encuentra en el sistema."
+    }
+  }
+}

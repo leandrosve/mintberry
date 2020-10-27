@@ -6,8 +6,19 @@ var cors = require("cors");
 require("dotenv").config();
 var indexRouter = require("./routes/index");
 const authFilter = require("./middleware/authFilter");
+let i18next = require("i18next");
+const i18nextMiddleware = require("i18next-http-middleware");
+const Backend = require("i18next-node-fs-backend");
+const changeLanguage = require("./middleware/changeLanguage");
+const i18nConfig = require("./locales/config");
 
 var app = express();
+
+i18next.use(Backend).init(i18nConfig);
+
+app.use(i18nextMiddleware.handle(i18next));
+
+app.use(changeLanguage);
 
 const errorHandler = require("./middleware/errorHandler");
 const RequestError = require("./error/RequestError");

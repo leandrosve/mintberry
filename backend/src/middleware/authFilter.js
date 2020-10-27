@@ -15,10 +15,10 @@ module.exports = async (req, res, next) => {
       return next();
     }
     const token = extractTokenFromHeader(req);
-    if(!token) throw RequestError.unauthorized("Invalid token");
+    if(!token) throw RequestError.invalidToken();
     const user = await verifyAccessToken(token);
     if(!user){
-      throw RequestError.unauthorized("Invalid token");
+      throw RequestError.invalidToken();
     }
     req.user=user;
     return next()

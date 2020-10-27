@@ -6,17 +6,17 @@ module.exports = Joi.object({
     .min(1)
     .max(300)
     .required()
-    .error(RequestError.badRequest("Invalid username.", "username")),
+    .error(RequestError.badRequest("errors.users.invalidUsername", "username")),
   email: Joi.string()
     .email()
     .required()
-    .error(RequestError.badRequest("Invalid email.", "email")),
+    .error(RequestError.badRequest("errors.users.invalidEmail", "email")),
   password: Joi.string()
     .pattern(new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[a-zA-Z]).{8,}$/))
     .required()
     .error(
       RequestError.badRequest(
-        "Password must be at least 8 characters and contain one uppercase and a number.",
+        "errors.users.weakPassword",
         "password"
       )
     ),
@@ -24,6 +24,6 @@ module.exports = Joi.object({
     .valid(Joi.ref("password"))
     .required()
     .error(
-      RequestError.badRequest("Passwords do not match", "passwordConfirmation")
+      RequestError.badRequest("errors.users.passwordConfirmation", "passwordConfirmation")
     ),
 });

@@ -31,3 +31,36 @@ exports.retrieveTask = async (req, res, next) => {
   if (!task) return next(RequestError.notFound());
   res.status(200).send(task);
 };
+
+exports.deleteTask = async (req, res, next) => {
+  let task;
+  try {
+    task = await taskService.deleteTaskFromUser(req.params.id, req.user);
+  } catch (err) {
+    return next(err);
+  }
+  if (!task) return next(RequestError.notFound());
+  res.status(200).send(task);
+};
+
+exports.updateTaskInfo = async (req, res, next) => {
+  let task;
+  try {
+    task = await taskService.updateTaskInfoFromUser(req.params.id, req.body, req.user);
+  } catch (err) {
+    return next(err);
+  }
+  if (!task) return next(RequestError.notFound());
+  res.status(200).send(task);
+};
+
+exports.updateTaskStatus = async (req, res, next) => {
+  let task;
+  try {
+    task = await taskService.performActionOverTaskFromUser(req.params.id, req.params.action, req.user);
+  } catch (err) {
+    return next(err);
+  }
+  if (!task) return next(RequestError.notFound());
+  res.status(200).send(task);
+};
