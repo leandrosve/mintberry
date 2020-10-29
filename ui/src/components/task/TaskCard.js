@@ -4,12 +4,9 @@ import { Media } from "bloomer/lib/components/Media/Media";
 import { MediaContent } from "bloomer/lib/components/Media/MediaContent";
 import { Level } from "bloomer/lib/components/Level/Level";
 import { LevelLeft } from "bloomer/lib/components/Level/LevelLeft";
-import { Icon } from "bloomer/lib/elements/Icon";
 import { Card } from "bloomer/lib/components/Card/Card";
 import { CardContent } from "bloomer/lib/components/Card/CardContent";
 import { LevelRight } from "bloomer/lib/components/Level/LevelRight";
-import IconButton from "../util/IconButton";
-import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import DeleteTaskButton from "./buttons/DeleteTaskButton";
 import FlexBox from "../util/FlexBox";
@@ -18,22 +15,23 @@ import { Title } from "bloomer/lib/elements/Title";
 import { openTaskDetail } from "../../redux/actions/modal";
 import TaskAvatar from "../util/TaskAvatar";
 import TaskActions from "./TaskActions";
-import TaskState from "./TaskState";
+import TaskStatus from "./TaskStatus";
 import { FINISHED, STOPPED } from "./states";
 import FinishedInfo from "./FinishedInfo";
 
+const placeholderImage = "https://www.freevector.com/uploads/vector/preview/28383/small_1x_Time_backgrounds_vector_3.jpg";
 const TaskCard = ({
   id,
   title,
   description,
-  image = "https://via.placeholder.com/128x128",
-  state,
+  image = placeholderImage,
+  status,
   startedAt,
   finishedAt,
   expiresAt,
 }) => {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
+  if(status===FINISHED && !finishedAt) console.log(id);
   return (
     <Card style={{ margin: "auto" }} className="mb-2 mt-2">
       <CardContent>
@@ -44,13 +42,13 @@ const TaskCard = ({
                 style={{ cursor: "pointer" }}
                 onClick={() => dispatch(openTaskDetail(id))}
               >              
-                  <TaskAvatar src={image} alt={title} />
+                  <TaskAvatar src={image || placeholderImage} alt={title} />
                   <FlexBox isColumn>
                     <Title isSize="4" className="m-0">
-                      {title} <TaskState state={state} />
+                      {title} <TaskStatus status={status} />
                     </Title>
-                    {state === FINISHED && <FinishedInfo startedAt={startedAt} finishedAt={finishedAt}/>}
-                    {![FINISHED, STOPPED].includes(state) && (
+                    {status === FINISHED && <FinishedInfo startedAt={startedAt} finishedAt={finishedAt}/>}
+                    {![FINISHED, STOPPED].includes(status) && (
                       <>
                         <ExpiracyClock date={expiresAt} /> <br />
                       </>
@@ -59,7 +57,7 @@ const TaskCard = ({
                 </FlexBox>
               </LevelLeft>
               <LevelRight style={{ display: "flex", justifyContent: "center" }}>
-                <TaskActions state={state} taskId={id}/>
+                <TaskActions status={status} taskId={id}/>
                 <DeleteTaskButton className="m-1" id={id} />
               </LevelRight>
             </Level>
@@ -75,8 +73,8 @@ TaskCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   image: PropTypes.string,
-  state: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
   expiresAt: PropTypes.any.isRequired,
 };
 
-export default TaskCard;
+export default React.memo(TaskCard);

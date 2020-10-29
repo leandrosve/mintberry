@@ -6,7 +6,8 @@ import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 const ExpiracyClock = ({ date }) => {
-  const isExpired = date < new Date();
+  const isExpired = Date.parse(date) < new Date();
+
   const textColor = isExpired ? " has-text-danger " : " has-text-primary ";
   const { t } = useTranslation();
 
@@ -31,6 +32,8 @@ const ExpiracyClock = ({ date }) => {
   );
 };
 
-ExpiracyClock.propTypes = {};
+ExpiracyClock.propTypes = {
+  date: PropTypes.any.isRequired
+};
 
 export default ExpiracyClock;

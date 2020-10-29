@@ -7,23 +7,23 @@ import FinishTaskButton from "./buttons/FinishTaskButton";
 import StartTaskButton from "./buttons/StartTaskButton";
 
 
-const TaskActions = ({ state, taskId }) => {
+const TaskActions = ({ status, taskId }) => {
   return (
     <>
      
-      {[READY, PAUSED].includes(state) && <StartTaskButton taskId={taskId} />}
+      {[READY, PAUSED].includes(status) && <StartTaskButton taskId={taskId} />}
 
-      {state === ACTIVE && <PauseTaskButton taskId={taskId} />}
+      {status === ACTIVE && <PauseTaskButton taskId={taskId} />}
 
-      {state === ACTIVE && <StopTaskButton taskId={taskId}/>}
+      {status === ACTIVE && <StopTaskButton taskId={taskId}/>}
 
-      {state === ACTIVE && <FinishTaskButton taskId={taskId} />}
+      {status === ACTIVE && <FinishTaskButton taskId={taskId} />}
     </>
   );
 };
 
 TaskActions.propTypes = {
-  state: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
 };
 
 export default TaskActions;

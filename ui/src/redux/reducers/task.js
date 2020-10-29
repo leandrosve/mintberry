@@ -58,13 +58,13 @@ export const selectVisible = createSelector(
   selectAll,
   selectVisibilityFilter,
   (tasks, visibilityFilter) =>{
-    return visibilityFilter === "ALL" ? tasks : tasks.filter((task) => task.state === visibilityFilter)
+    return visibilityFilter === "ALL" ? tasks : tasks.filter((task) => task.status === visibilityFilter)
   }
 );
 
 export const selectActiveCount = (state) =>
-  state.allTasks.reduce((count, { state }) => {
-    return state === ACTIVE ? ++count : count;
+  state.allTasks.reduce((count, { status }) => {
+    return status === ACTIVE ? ++count : count;
   }, 0);
 
 export default reducer;

@@ -4,7 +4,6 @@ const Task = require("../db/models/Task");
 const RequestError = require("../error/RequestError");
 const User = require("../db/models/User");
 const updateTaskSchema = require("../validation/schemas/tasks/updateTask");
-const i18next = require('i18next');
 
 const createTaskForUser = async (taskInfo, user) => {
   validateTaskInfo(taskInfo);
@@ -34,13 +33,13 @@ const retrieveTaskFromUser = async (taskId, user) => {
 };
 
 const deleteTaskFromUser = async (taskId, user) => {
-  const task = await this.retrieveTaskFromUser(taskId, user);
+  const task = await retrieveTaskFromUser(taskId, user);
   const success = await Task.destroy({ where: { id: task.id } });
   if (success) return task;
 };
 
 const updateTaskInfoFromUser = async (taskId, taskInfo = {}, user) => {
-  const task = await this.retrieveTaskFromUser(taskId, user);
+  const task = await retrieveTaskFromUser(taskId, user);
   if(isObjectEmpty(taskInfo)) throw RequestError.badRequest("errors.tasks.update.invalid");
   validateUpdateTaskInfo(taskInfo);
   const sanitizedTaskInfo = sanitizeTaskInfo(taskInfo);
@@ -51,7 +50,7 @@ const updateTaskInfoFromUser = async (taskId, taskInfo = {}, user) => {
 };
 
 const performActionOverTaskFromUser = async (taskId, action, user) => {
-  const task = await this.retrieveTaskFromUser(taskId, user);
+  const task = await retrieveTaskFromUser(taskId, user);
   if (actionStatusMap[action] == null)
     throw RequestError.badRequest("errors.tasks.update.invalid");
   if(task.status === "FINISHED") throw RequestError.badRequest("errors.tasks.update.isFinished");

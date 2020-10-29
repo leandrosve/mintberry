@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { selectActiveTasksCount } from "../../redux/reducers";
 import { Tag } from "bloomer/lib/elements/Tag";
@@ -18,7 +17,5 @@ const ActiveCounter = () => {
     </Tag>
   );
 };
-
-ActiveCounter.propTypes = {};
 
 export default ActiveCounter;

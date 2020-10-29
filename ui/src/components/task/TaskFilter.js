@@ -1,12 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Select } from "bloomer/lib/elements/Form/Select";
 import { ACTIVE, FINISHED, PAUSED, STOPPED } from "./states";
 import { useDispatch, useSelector } from "react-redux";
 import { selectTasksVisibilityFilter } from "../../redux/reducers";
 import { setVisibilityFilter } from "../../redux/actions/task";
-import FlexBox from "../util/FlexBox";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const TaskFilter = () => {
   const value = useSelector((state) => selectTasksVisibilityFilter(state));

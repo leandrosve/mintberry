@@ -24,6 +24,8 @@ const PauseTaskButton = ({taskId}) => {
   );
 };
 
-PauseTaskButton.propTypes = {};
+PauseTaskButton.propTypes = {
+  taskId: PropTypes.number.isRequired,
+};
 
 export default PauseTaskButton;

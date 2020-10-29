@@ -1,10 +1,27 @@
 import axios from "axios";
-
+import i18next from "i18next";
+import store from "./redux/store";
 const instance = axios.create({
-  baseURL: "http://localhost:8080",
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  baseURL: "http://localhost:8081/api",
 });
 
+instance.interceptors.request.use((config)=>{
+  config.headers.common['Accept-Language'] = i18next.language;
+  const token = store.getState().session.auth.accessToken;
+  if(token)
+    config.headers.common['Authorization'] = `Bearer ${token}`;
+  return config;
+});
+
+instance.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err && err.response) {
+      return Promise.reject(err.response.data && err.response.data.error); 
+    }
+    return Promise.reject(err);
+  }
+);
 
 
 const API= {

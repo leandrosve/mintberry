@@ -11,15 +11,18 @@ const tagClassName = {
   [STOPPED]: "danger",
   [FINISHED]: "secondary",
 };
-const TaskState = ({state, ...props}) => {
+const TaskStatus = ({status, ...props}) => {
   const { t } = useTranslation();
   return (
-    <Tag isColor={tagClassName[state]} isSize="small" {...props}>
-      {t(state)}
+    <Tag isColor={tagClassName[status]} isSize="small" {...props}>
+      {t(status)}
     </Tag>
   );
 };
 
-TaskState.propTypes = {};
+TaskStatus.propTypes = {
+  status: PropTypes.string.isRequired,
+  
+};
 
-export default TaskState;
+export default TaskStatus;

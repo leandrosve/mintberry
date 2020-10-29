@@ -1,13 +1,12 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback } from "react";
 import TaskAvatar from "./TaskAvatar";
 import Modal from "../layout/Modal";
-import { Button } from "bloomer/lib/elements/Button";
 
 const ImagePicker = ({ handlePick, handleClose, images, isOpen}) => {
   const onPick = useCallback((src) => {
     handlePick(src);
     handleClose();
-  },[handlePick]);
+  },[handlePick, handleClose]);
   return (
     <>
       <Modal

@@ -8,9 +8,10 @@ export default {
     expired: "Expired",
     expires: "Expires",
     "ACTIVE": "Active",
+    "RUNNING": "Active",
     "READY": "Ready",
     "PAUSED": "Paused",
-    "STOPPED": "Stopped",
+    "CANCELLED": "Cancelled",
     "FINISHED": "Finished",
     createdDate: "Created at",
     expiracyDate: "Expiracy date",
@@ -21,12 +22,14 @@ export default {
     all: "All",
     fields: {
       username: "Username",
+      email: "Email",
       name: "Name",
       password: "Password",
       passwordConfirm: "Confirm password",
       title: "Title",
       description: "Description",
       validation: {
+        emailInvalid: "Must be an email address.",
         passwordWeak:
           "Must be at least eight (8) characters long and contain a number or symbol",
         tooShort: "Must be at least {{minLength}} characters long.",
@@ -49,6 +52,8 @@ export default {
     error:{
       notFound:"Not found",
       resourceNotFound: "Sorry, we couldn't find the requested resource",
+      taskAdd:"There was an error while trying to create the task.",
+      taskStatus:"There was an error while trying to change the task status.",
     },
     actions: {
       add: "Add",

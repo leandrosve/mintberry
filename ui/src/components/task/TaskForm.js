@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Container } from "bloomer/lib/layout/Container";
 import { useTranslation } from "react-i18next";
 import { Title } from "bloomer/lib/elements/Title";

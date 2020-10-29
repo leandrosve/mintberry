@@ -4,7 +4,7 @@ import TaskCard from "./TaskCard";
 import { useDispatch, useSelector } from "react-redux";
 import { selectVisibleTasks } from "../../redux/reducers";
 import NotificationContainer from "../../containers/NotificationContainer";
-import { ADD_TASK_REQUEST, DELETE_TASK_REQUEST } from "../../redux/actions/types";
+import { ADD_TASK_REQUEST, DELETE_TASK_REQUEST, FETCH_TASKS_REQUEST } from "../../redux/actions/types";
 import { useTranslation } from "react-i18next";
 import { Button } from "bloomer/lib/elements/Button";
 import { Title } from "bloomer/lib/elements/Title";
@@ -15,12 +15,15 @@ import { Icon } from "bloomer/lib/elements/Icon";
 import { openTaskForm } from "../../redux/actions/modal";
 import TaskFilter from "./TaskFilter";
 import { Subtitle } from "bloomer/lib/elements/Subtitle";
+import { selectIsRequestLoading } from "../../redux/reducers";
+import Spinner from "../util/Spinner";
 
 const concerns = [DELETE_TASK_REQUEST, ADD_TASK_REQUEST];
 const TaskList = () => {
   const tasks = useSelector((state) => selectVisibleTasks(state));
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const loading = useSelector(state => selectIsRequestLoading(state, FETCH_TASKS_REQUEST));
   return (
     <Container>
       <Title>{t("tasks")}</Title>
@@ -36,7 +39,7 @@ const TaskList = () => {
         </LevelRight>
       </Level>
       <NotificationContainer concerns={concerns} />
-     
+      {loading && <Spinner/>}
       {tasks.length === 0 && <Subtitle className="m-3">{t("noTasks")}</Subtitle>}
       {tasks.map((task) => (
         <TaskCard key={task.id} {...task} />

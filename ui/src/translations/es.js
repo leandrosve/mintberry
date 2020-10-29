@@ -7,11 +7,12 @@ export default {
     logout: "Cerrar sesión",
     expired: "Expiró",
     expires: "Expira",
-    "ACTIVE": "Activo",
-    "READY": "Listo",
+    "ACTIVE": "Activa",
+    "RUNNING": "Activa",
+    "READY": "Lista",
     "PAUSED": "En pausa",
-    "STOPPED": "Detenido",
-    "FINISHED": "Finalizado",
+    "CANCELLED": "Cancelada",
+    "FINISHED": "Finalizada",
     createdDate: "Fecha de creación",
     expiracyDate: "Fecha de expiración",
     tasks: "Tareas",
@@ -21,12 +22,14 @@ export default {
     all: "Todos",
     fields: {
       username: "Nombre de usuario",
+      email: "Email",
       name: "Nombre",
       password: "Contraseña",
       passwordConfirm: "Repetir contraseña",
       title: "Titulo",
       description: "Descripción",
       validation: {
+        emailInvalid: "Debe ser una dirección de correo electrónico.",
         passwordWeak:
           "Debe contener al menos ocho (8) caracteres y contener un (1) número o símbolo.",
         tooShort: "Debe contener al menos {{minLength}} caracteres.",
@@ -50,6 +53,8 @@ export default {
     error:{
       notFound:"No encontrado",
       resourceNotFound: "Lo sentimos, no pudimos encontrar el recurso solicitado.",
+      taskAdd:"No se ha podido agregar la tarea.",
+      taskStatus:"No se ha podido cambiar el estado de la tarea.",
     },
     actions: {
       add: "Añadir",

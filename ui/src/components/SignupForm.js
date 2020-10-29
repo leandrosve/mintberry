@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container } from "bloomer/lib/layout/Container";
 import { Title } from "bloomer/lib/elements/Title";
 import { Button } from "bloomer/lib/elements/Button";
@@ -8,59 +8,62 @@ import { LevelItem } from "bloomer/lib/components/Level/LevelItem";
 import { LevelLeft } from "bloomer/lib/components/Level/LevelLeft";
 import { Form, Formik } from "formik";
 import TextField from "./TextField";
-import Alert from "./layout/Alert";
 import { openLoginForm } from "../redux/actions/modal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import signupSchema from "../validations/signupSchema";
 import { useTranslation } from "react-i18next";
+import { SIGNUP_REQUEST } from "../redux/actions/types";
+import NotificationContainer from "../containers/NotificationContainer";
+import { signup } from "../redux/actions/user";
+import { selectIsRequestLoading } from "../redux/reducers";
+import Spinner from "./util/Spinner";
 
 const SignupForm = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const [canSubmit, setCanSubmit] = useState(true);
+  const loading = useSelector(state=>selectIsRequestLoading(state, SIGNUP_REQUEST));
   return (
     <Formik
       validateOnChange
       validateOnMount
       {...signupSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+      onSubmit={(values) => {
+        setCanSubmit(false);
+        dispatch(signup(values));
+        setTimeout(setCanSubmit(true), 2000);
       }}
     >
-      {({ isValid}) => (
+      {({ isValid }) => (
         <Form>
           <Container>
             <Title className="has-text-centered" isSize={4}>
               {t("signup")}
             </Title>
-            <Alert
-              type="danger"            
-              message={t("fields.validation.usernameTaken")}
+            <NotificationContainer
+              concerns={[SIGNUP_REQUEST]}
+              onlyErrors={true}
             />
-            <TextField label={t("fields.username")} type="text" name="username" />
-            <TextField label={t("fields.name")} type="text" name="name" />
+            <Spinner isVisible={loading}/>
+            <TextField
+              label={t("fields.username")}
+              type="text"
+              name="username"
+            />
+            <TextField label={t("fields.email")} type="email" name="email" />
             <TextField
               label={t("fields.password")}
               type="password"
               name="password"
-              help= {"*"+t("fields.validation.passwordWeak")}
+              help={"*" + t("fields.validation.passwordWeak")}
             />
             <TextField
               label={t("fields.passwordConfirm")}
               type="password"
-              name="passwordRepeat"
+              name="passwordConfirmation"
             />
-            <Level>            
+            <Level>
               <LevelRight>
-                <LevelItem>
-                  <Button isColor="primary" type="submit" disabled={!isValid}>
-                  {t("signup")}
-                  </Button>
-                </LevelItem>
-              </LevelRight>
-              <LevelLeft>
                 <LevelItem>
                   <Button
                     href="#login"
@@ -68,6 +71,17 @@ const SignupForm = () => {
                     onClick={() => dispatch(openLoginForm())}
                   >
                     {t("links.login")}
+                  </Button>
+                </LevelItem>
+              </LevelRight>
+              <LevelLeft>
+                <LevelItem>
+                  <Button
+                    isColor="primary"
+                    type="submit"
+                    disabled={!canSubmit || !isValid}
+                  >
+                    {t("signup")}
                   </Button>
                 </LevelItem>
               </LevelLeft>

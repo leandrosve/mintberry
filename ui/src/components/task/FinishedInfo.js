@@ -36,6 +36,9 @@ const FinishedInfo = ({ startedAt, finishedAt }) => {
   );
 };
 
-FinishedInfo.propTypes = {};
+FinishedInfo.propTypes = {
+  startedAt: PropTypes.any.isRequired,
+  finishedAt: PropTypes.any.isRequired,
+};
 
 export default FinishedInfo;

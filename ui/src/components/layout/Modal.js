@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { ModalBackground } from "bloomer/lib/components/Modal/ModalBackground";
-import { ModalContent } from "bloomer/lib/components/Modal/ModalContent";
 import { Modal as BulmaModal } from "bloomer/lib/components/Modal/Modal";
 import { ModalCard } from "bloomer/lib/components/Modal/Card/ModalCard";
 import { Delete } from "bloomer/lib/elements/Delete";

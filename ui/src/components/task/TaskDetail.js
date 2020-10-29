@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Container } from "bloomer/lib/layout/Container";
 import { Title } from "bloomer/lib/elements/Title";
@@ -11,7 +11,7 @@ import { Level } from "bloomer/lib/components/Level/Level";
 import TaskAvatar from "../util/TaskAvatar";
 import TaskActions from "./TaskActions";
 import { useTranslation } from "react-i18next";
-import TaskState from "./TaskState";
+import TaskStatus from "./TaskStatus";
 import DeleteTaskButton from "./buttons/DeleteTaskButton";
 import { Icon } from "bloomer/lib/elements/Icon";
 import moment from "moment";
@@ -22,11 +22,13 @@ import imageList from "./imageList";
 import ImagePicker from "../util/ImagePicker";
 import FinishedInfo from "./FinishedInfo";
 
+const placeholderImage = "https://www.freevector.com/uploads/vector/preview/28383/small_1x_Time_backgrounds_vector_3.jpg";
+
 const TaskDetail = ({
   id,
   image,
   title,
-  state,
+  status,
   expiresAt,
   startedAt,
   finishedAt,
@@ -42,7 +44,7 @@ const TaskDetail = ({
           <TaskAvatar
             style={{ cursor: "pointer" }}
             data-tip={t("actions.avatarChange")}
-            src={image}
+            src={image || placeholderImage}
             alt={title}
             onClick={() => setOpenImagePicker(true)}
           />
@@ -54,17 +56,22 @@ const TaskDetail = ({
             images={imageList}
             isOpen={openImagePicker}
           />
-          <Title style={{ display: "inline" }} className="m-0">
+          <Title style={{ display: "inline-block", maxWidth:"300px", wordWrap:"ellipsis"}} className="m-0">
             {title}
           </Title>
-          <TaskState state={state} className="ml-3" />
+          <div className="is-align-self-flex-start">
+          <TaskStatus status={status} className="ml-3" />
+          </div>
         </LevelLeft>
-        <LevelRight>
-          {state === FINISHED ? (
+        <LevelRight 
+          className="is-align-self-flex-start">
+            <div>
+          {status === FINISHED ? (
             <FinishedInfo startedAt={startedAt} finishedAt={finishedAt} />
-          ) : state !== STOPPED &&
+          ) : status !== STOPPED &&
             <ExpiracyClock date={expiresAt} />
           }
+            </div>
         </LevelRight>
       </Level>
       <div className="block mb-2">
@@ -81,7 +88,7 @@ const TaskDetail = ({
 
       <Level>
         <LevelLeft>
-          <TaskActions taskId={id} state={state} />
+          <TaskActions taskId={id} status={status} />
         </LevelLeft>
         <LevelRight>
           <EditTaskButton />
@@ -102,7 +109,7 @@ TaskDetail.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   image: PropTypes.string,
-  state: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
   expiresAt: PropTypes.any.isRequired,
   createdAt: PropTypes.any.isRequired,
 };

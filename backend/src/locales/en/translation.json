@@ -1,8 +1,41 @@
 {
   "errors": {
-    "tasks":{
-      "notFound":"The requested task was not found"
+    "tasks": {
+      "forbidden": "The requested task doesn't belong to you.",
+      "notFound": "The requested task was not found.",
+      "invalidTitle": "The provided title is invalid.",
+      "invalidDescription": "The provided description is invalid.",
+      "invalidExpiracyDate": "The provided expiracy date is invalid.",
+      "invalidImageURL": "The image URL is invalid.",
+      "create": {
+        "error": "There was an error while trying to create the task.",
+        "invalidAction": "The requested action is invalid."
+      },
+      "update": {
+        "invalid": "Task was not modified because the provided information was invalid.",
+        "isFinished": "A finished task cannot be modified.",
+        "isCancelled": "A cancelled task cannot be modified."
+      }
+    },
+    "users": {
+      "invalidUsername": "The username is invalid.",
+      "invalidEmail": "Please enter a valid email.",
+      "weakPassword": "Password must contain at least eight (8) characters, one uppercase and one number.",
+      "passwordConfirmation": "The passwords do not match."
+    },
+    "auth": {
+      "invalidCredentials": "The provided credentials are invalid.",
+      "login": "Username and password do not match.",
+      "noToken": "No authentication token was provided.",
+      "malformedToken": "The provided authentication token is malformed.",
+      "invalidToken": "The provided token is invalid."
+    },
+    "notFound":"Couldn't find the requested resource.",
+    "unhandled": "We're sorry, something went wrong.",
+    "sequelize": {
+      "email_not_unique": "The email address is already registered in the system.",
+      "username_not_unique": "The username is already taken."
     }
-    
   }
 }
+

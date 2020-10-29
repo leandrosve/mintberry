@@ -24,6 +24,8 @@ const StartTaskButton = ({taskId}) => {
   );
 };
 
-StartTaskButton.propTypes = {};
+StartTaskButton.propTypes = {
+  taskId: PropTypes.number.isRequired
+};
 
 export default StartTaskButton;

@@ -22,6 +22,8 @@ const FinishTaskButton = ({taskId}) => {
   );
 };
 
-FinishTaskButton.propTypes = {};
+FinishTaskButton.propTypes = {
+  taskId: PropTypes.number.isRequired
+};
 
 export default FinishTaskButton;
