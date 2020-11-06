@@ -22,7 +22,8 @@
       "invalidUsername": "El nombre de usuario es inválido.",
       "invalidEmail": "La dirección de correo electrónico es inválida.",
       "weakPassword": "La contraseña debe tener al menos ocho (8) carácteres, contener una mayúscula y un número.",
-      "passwordConfirmation": "Las contraseñas no coinciden."
+      "passwordConfirmation": "Las contraseñas no coinciden.",
+      "notFound": "No se ha encontrado el usuario en el sistema."
     },
     "auth": {
       "invalidCredentials": "Las credenciales provistas no son válidas.",

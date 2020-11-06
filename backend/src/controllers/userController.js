@@ -45,3 +45,14 @@ exports.logout = async (req, res, next) => {
   if (success) return res.status(200).send();
   next(RequestError.unhandled());
 };
+
+exports.getUserInfo = async (req, res, next) => {
+  let userInfo;
+  try {
+    userInfo = await userService.retrieveUserInfo(req.user);
+  } catch (err) {
+    return next(err);
+  }
+  if (userInfo) return res.status(200).send(userInfo);
+  next(RequestError.unhandled());
+};

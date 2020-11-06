@@ -48,6 +48,13 @@ exports.createUser = async (userInfo) => {
   return user;
 };
 
+exports.retrieveUserInfo = async (user) =>{
+  const userInfo = await User.findByPk(user.id);
+  if(!userInfo) throw RequestError.notFound("errors.users.notFound");
+  const {id, username, email} = userInfo;
+  return {id, username, email}
+}
+
 const validateLoginInfo = ({ email, password }) =>
   validate(loginSchema, { email, password });
 

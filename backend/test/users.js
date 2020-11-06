@@ -4,7 +4,7 @@ const { after } = require("mocha");
 const server = require("../src/app");
 const RefreshToken = require("../src/db/models/RefreshToken");
 const User = require("../src/db/models/User");
-const { validRefreshToken } = require("./premises");
+const { validRefreshToken, validAuthHeader } = require("./premises");
 
 const unknownRefreshToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsInVzZXJuYW1lIjoibGVhbmRybyIsImVtYWlsIjoibGVhbmRyb0BnbWFpbC5jb20iLCJpYXQiOjE2MDM3NDM0MDF9.YjWVcTI64X52VA8ISwLleqO76RhkW9-K10JxhFONlVY";
@@ -274,6 +274,31 @@ describe("Users API", () => {
           response.should.have.status(200);
           response.body.should.have.property('accessToken').which.is.a("string");
           response.body.should.have.property('refreshToken').which.is.a("string");
+          done();
+        });
+    });
+  });
+
+  describe("GET /api/users/me", () => {  
+    it("It should fail because it's unauthorized", (done) => {
+      chai
+        .request(server)
+        .get("/api/users/me")
+        .end((err, response) => {
+          response.should.have.status(401);
+          done();
+        });
+    });
+    it("It should return status 200 and the user info", (done) => {
+      chai
+        .request(server)
+        .get("/api/users/me")
+        .set("Authorization", validAuthHeader)
+        .end((err, response) => {
+          response.should.have.status(200);
+          response.body.should.have.property("id").which.is.a("number");
+          response.body.should.have.property("username").which.is.a("string");
+          response.body.should.have.property("email").which.is.a("string");
           done();
         });
     });

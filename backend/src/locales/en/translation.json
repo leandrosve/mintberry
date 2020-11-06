@@ -21,7 +21,8 @@
       "invalidUsername": "The username is invalid.",
       "invalidEmail": "Please enter a valid email.",
       "weakPassword": "Password must contain at least eight (8) characters, one uppercase and one number.",
-      "passwordConfirmation": "The passwords do not match."
+      "passwordConfirmation": "The passwords do not match.",
+      "notFound": "User not found in the system."
     },
     "auth": {
       "invalidCredentials": "The provided credentials are invalid.",

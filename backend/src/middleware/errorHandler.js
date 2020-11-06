@@ -5,7 +5,6 @@ const i18next = require('i18next');
 
 const formatSequelizeError = (err) =>{
   const first = err.errors[0];
-  console.log({first});
   const prefix="errors.sequelize";
   return RequestError.badRequest(i18next.t(`${prefix}.${first.path}_${first.validatorKey}`), first.path)
 }
