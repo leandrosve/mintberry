@@ -18,7 +18,7 @@ import { LOGIN_REQUEST, SIGNUP_REQUEST } from "../redux/actions/types";
 import Spinner from "./util/Spinner";
 import { selectIsRequestLoading } from "../redux/reducers";
 
-const LoginForm = () => {
+const LoginForm = ({showSignupSuccess = true}) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [canSubmit, setCanSubmit] = useState(true);
@@ -40,7 +40,7 @@ const LoginForm = () => {
             <Title className="has-text-centered" isSize={4}>
               {t("login")}
             </Title>
-            <NotificationContainer concerns={[LOGIN_REQUEST, SIGNUP_REQUEST]}/>
+            <NotificationContainer concerns={[LOGIN_REQUEST, showSignupSuccess ? SIGNUP_REQUEST : undefined]}/>
             <Spinner isVisible={loading}/>
             <TextField
               label={t("fields.email")}
@@ -58,7 +58,6 @@ const LoginForm = () => {
               <LevelLeft>
                 <LevelItem>
                   <Button
-                    href="#register"
                     isColor="info"
                     onClick={() => dispatch(openRegisterForm())}
                   >
@@ -85,4 +84,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default React.memo(LoginForm);

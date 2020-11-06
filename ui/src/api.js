@@ -1,8 +1,9 @@
 import axios from "axios";
 import i18next from "i18next";
 import store from "./redux/store";
+
 const instance = axios.create({
-  baseURL: "http://localhost:8081/api",
+  baseURL: `http://${process.env.HOST_URL || "192.168.0.226"}:8081/api`,
 });
 
 instance.interceptors.request.use((config)=>{

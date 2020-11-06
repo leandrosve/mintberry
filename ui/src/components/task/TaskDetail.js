@@ -91,7 +91,6 @@ const TaskDetail = ({
           <TaskActions taskId={id} status={status} />
         </LevelLeft>
         <LevelRight>
-          <EditTaskButton />
           <DeleteTaskButton id={id} />
         </LevelRight>
       </Level>

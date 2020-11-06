@@ -9,7 +9,7 @@ import StartTaskButton from "./buttons/StartTaskButton";
 
 const TaskActions = ({ status, taskId }) => {
   return (
-    <>
+    <div onClick={(e)=>e.stopPropagation()}>
      
       {[READY, PAUSED].includes(status) && <StartTaskButton taskId={taskId} />}
 
@@ -18,7 +18,7 @@ const TaskActions = ({ status, taskId }) => {
       {status === ACTIVE && <StopTaskButton taskId={taskId}/>}
 
       {status === ACTIVE && <FinishTaskButton taskId={taskId} />}
-    </>
+    </div>
   );
 };
 

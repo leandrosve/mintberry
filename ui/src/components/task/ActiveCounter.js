@@ -10,6 +10,7 @@ const ActiveCounter = () => {
   return (
     <Tag
       className="is-rounded"
+      
       data-tip={t("activeTasksCount", { count })}
       isColor="primary"
     >

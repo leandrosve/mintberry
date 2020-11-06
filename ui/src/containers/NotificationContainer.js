@@ -11,6 +11,7 @@ import {
   clearSuccessNotifications,
 } from "../redux/actions/notification";
 import { useTranslation } from "react-i18next";
+import { Tag } from "bloomer/lib/elements/Tag";
 
 const NotificationContainer = ({
   concerns = [],
@@ -31,22 +32,27 @@ const NotificationContainer = ({
     open: false,
     message: null,
     type: "info",
+    repeatCount: 0,
   });
   useEffect(() => {
     if (successMessage) {
-      setShowNotification({
+      setShowNotification((prev) => ({
         open: true,
         message: successMessage,
         type: "success",
-      });
+        repeatCount:
+          successMessage === prev.message ? prev.repeatCount + 1 : 1,
+      }));
       dispatch(clearSuccessNotifications(concerns));
     }
     if (errorMessage) {
-      setShowNotification({
+      setShowNotification((prev) => ({
         open: true,
         message: errorMessage,
         type: "danger",
-      });
+        repeatCount:
+          errorMessage === prev.message ? prev.repeatCount + 1 : 1,
+      }));
 
       dispatch(clearErrorNotifications(concerns));
     }
@@ -56,10 +62,20 @@ const NotificationContainer = ({
       {showNotification.open && (
         <Alert
           type={showNotification.type}
-          message={t(showNotification.message)}
+          message={
+            <span>
+              {t(showNotification.message)}{" "}
+              {showNotification.repeatCount > 1 && (
+                <Tag  className={`is-rounded has-text-white has-background-${showNotification.type}-dark`}>
+                  {showNotification.repeatCount}
+                </Tag>
+              )}
+            </span>
+          }
           handleClose={() =>
             setShowNotification({
               ...showNotification,
+              repeatCount:0,
               open: false,
             })
           }

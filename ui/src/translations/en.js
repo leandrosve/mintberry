@@ -1,6 +1,7 @@
 export default {
   translation: {
     home: "Home",
+    "welcomeMessage": "Welcome <1>{{name}}</1>, you have <1><0>{{count}}</0></1> active tasks.",
     lang: "Language",
     login: "Log in",
     signup: "Sign up",
@@ -16,10 +17,13 @@ export default {
     createdDate: "Created at",
     expiracyDate: "Expiracy date",
     tasks: "Tasks",
+    finishedTasks: "Finished tasks",
+    pausedTasks: "Paused tasks",
     activeTasksCount: "You have {{count}} active task/s",
     noTasks: "No tasks have been found.",
     finishedIn: "Finished in",
     all: "All",
+    credits:"By <1>Leandro Svetlich</1>. Made with React JS and Express.js",
     fields: {
       username: "Username",
       email: "Email",

@@ -44,8 +44,7 @@ const TaskForm = () => {
             .min(new Date(), t("fields.validation.pastDate")),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
+          setTimeout(() => {         
             dispatch(addTask(values));
             setSubmitting(false);
           }, 400);

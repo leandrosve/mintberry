@@ -14,8 +14,9 @@ import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 import ActiveTasksCounter from "../task/ActiveCounter";
 import { logout } from "../../redux/actions/session";
+import { Icon } from "bloomer/lib/elements/Icon";
 
-const Navbar = ({ isLoggedIn = false }) => {
+const Navbar = ({ isLoggedIn = false , username}) => {
   const [isMenuActive, setIsMenuActive] = useState(false);
   const toggleMenu = () => {
     setIsMenuActive((prev) => !prev);
@@ -23,7 +24,7 @@ const Navbar = ({ isLoggedIn = false }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const isLanguageActive = (lang) => i18next.language === lang;
-  const changeLanguage = (lang) => i18next.changeLanguage(lang);
+  const changeLanguage = (lang) => {if(!isLanguageActive(lang))i18next.changeLanguage(lang)};
 
   return (
     <BulmaNavbar>
@@ -42,16 +43,16 @@ const Navbar = ({ isLoggedIn = false }) => {
           <NavbarItem href="/">{t("home")}</NavbarItem>
           <NavbarItem hasDropdown isHoverable>
             <NavbarLink>{t("lang")}</NavbarLink>
-            <NavbarDropdown>
+            <NavbarDropdown >
               <NavbarItem
-                href="#"
+                className="navbar-link is-arrowless is-hoverable"
                 isActive={isLanguageActive("es")}
                 onClick={() => changeLanguage("es")}
               >
                 ES
               </NavbarItem>
               <NavbarItem
-                href="#"
+                className="navbar-link is-arrowless is-hoverable"
                 isActive={isLanguageActive("en")}
                 onClick={() => changeLanguage("en")}
               >
@@ -65,6 +66,10 @@ const Navbar = ({ isLoggedIn = false }) => {
             <>
               <NavbarItem className="is-hidden-touch">
                 <ActiveTasksCounter className="is-hidden-touch" />
+              </NavbarItem>
+              <NavbarItem>
+                <Icon className="fas fa-user mr-3"/>
+                {`${username}`}
               </NavbarItem>
               <NavbarItem href="#logout" onClick={()=> dispatch(logout())}>{t("logout")}</NavbarItem>
             </>

@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import modal, * as fromModal from "./modal";
+import modal, {selectors as modalSelectors} from "./modal";
 import dialog from "./dialog";
-import session, * as fromSession from "./session";
-import task, * as fromTask from "./task";
-import notification, * as fromNotification from "./notification";
+import session, {selectors as sessionSelectors} from "./session";
+import task, {selectors as taskSelectors}from "./task";
+import notification, {selectors as notificationSelectors} from "./notification";
 
 const combinedReducers = combineReducers({
   modal,
@@ -20,39 +20,47 @@ const rootReducer = (state, action) => {
   return combinedReducers(state, action);
 };
 
-export const selectModalIsOpen = (state) => fromModal.selectIsOpen(state.modal);
+export const selectModalIsOpen = (state) => modalSelectors.selectIsOpen(state.modal);
 
 export const selectModalContentType = (state) =>
-  fromModal.selectContentType(state.modal);
+  modalSelectors.selectContentType(state.modal);
 
 export const selectModalContentParams = (state) =>
-  fromModal.selectContentParams(state.modal);
+  modalSelectors.selectContentParams(state.modal);
 
 export const selectDialog = (state) => state.dialog;
 
 export const selectSuccessNotifications = (state, concerns) =>
-  fromNotification.selectSuccessNotifications(state.notification, concerns);
+  notificationSelectors.selectSuccessNotifications(state.notification, concerns);
 
 export const selectErrorNotifications = (state, concerns) =>
-  fromNotification.selectErrorNotifications(state.notification, concerns);
+  notificationSelectors.selectErrorNotifications(state.notification, concerns);
 
 export const selectIsRequestLoading = (state, concern) =>
-  fromNotification.selectIsRequestLoading(state.notification, concern);
+  notificationSelectors.selectIsRequestLoading(state.notification, concern);
 
-export const selectAllTasks = (state) => fromTask.selectAll(state.task);
+export const selectAllTasks = (state) => taskSelectors.selectAll(state.task);
 
-export const selectVisibleTasks = (state) => fromTask.selectVisible(state.task);
+export const selectVisibleTasks = (state) => taskSelectors.selectVisible(state.task);
 
 export const selectTaskById = (state, id) =>
-  fromTask.selectById(state.task, id);
+  taskSelectors.selectById(state.task, id);
 
 export const selectTasksVisibilityFilter = (state) =>
-  fromTask.selectVisibilityFilter(state.task);
+  taskSelectors.selectVisibilityFilter(state.task);
 
 export const selectActiveTasksCount = (state) =>
-  fromTask.selectActiveCount(state.task);
+  taskSelectors.selectActiveCount(state.task);
+
+  
+export const selectFinishedTasksCount = (state) =>
+taskSelectors.selectFinishedCount(state.task);
 
 export const selectIsUserAuthenticated = (state) =>
-  fromSession.selectIsAuthenticated(state.session);
+  sessionSelectors.selectIsAuthenticated(state.session);
+
+export const selectProfile = state => sessionSelectors.selectProfile(state.session);
+
+export const selectUsername = state => sessionSelectors.selectUsername(state.session);
 
 export default rootReducer;

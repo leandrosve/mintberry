@@ -13,7 +13,7 @@ const TaskFilter = () => {
   return (
       <Select
         onChange={(e) => dispatch(setVisibilityFilter(e.target.value))}
-        defaultValue={value}
+        value={value}
         className="mb-2"
       >
         <option value="ALL">{t("all")}</option>

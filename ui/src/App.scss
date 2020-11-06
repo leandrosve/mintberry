@@ -12,6 +12,7 @@ $custom-colors: (
 
 @import "../node_modules/bulma/sass/utilities/_all";
 
+
 $pagination-current-background-color: $primary ;
 $pagination-current-border-color: $primary;
 
@@ -21,6 +22,79 @@ $pagination-current-border-color: $primary;
     border: 0px;
 }
 
-
-
 @import "../node_modules/bulma/bulma.sass";
+
+
+html, body{
+  height:100%;
+}
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 5em;
+  height: 5em;
+}
+
+$loader-thickness: 0.3em;
+.loader {
+  margin: 60px auto;
+  font-size: 10px;
+  color:"black";
+  position: relative;
+  border-top: $loader-thickness solid rgba(255, 255, 255, 0.2);
+  border-right: $loader-thickness solid rgba(255, 255, 255, 0.2);
+  border-bottom: $loader-thickness solid rgba(255, 255, 255, 0.2);
+  border-left: $loader-thickness solid $primary;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.fade-appear{
+    opacity: 0;
+}
+
+.fade-enter {
+    opacity: 0;
+  }
+  .fade-enter.fade-enter-active, .fade-appear.fade-appear-active {
+    opacity: 1;
+    transition: opacity 200ms ease-in;
+  }
+
+  .fade-exit {
+    opacity: 1;
+  }
+  .fade-exit.fade-exit-active {
+    opacity: 0;
+    transition: opacity 400ms linear;
+  }
+  
+  .fade-exit-done {
+    opacity: 0;
+  }
+

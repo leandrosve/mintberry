@@ -17,8 +17,14 @@ const reducer = (state = initialState, {type, payload}) => {
   }
 };
 
-export const selectIsOpen = (state) => state.isOpen;
-export const selectContentParams = (state) => state.contentParams;
-export const selectContentType = (state) => state.contentType;
+const selectIsOpen = (state) => state.isOpen;
+const selectContentParams = (state) => state.contentParams;
+const selectContentType = (state) => state.contentType;
 
+export const selectors = {
+  selectIsOpen,
+  selectContentParams, 
+  selectContentType,
+
+}
 export default reducer;

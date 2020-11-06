@@ -66,7 +66,6 @@ const SignupForm = () => {
               <LevelRight>
                 <LevelItem>
                   <Button
-                    href="#login"
                     isColor="info"
                     onClick={() => dispatch(openLoginForm())}
                   >

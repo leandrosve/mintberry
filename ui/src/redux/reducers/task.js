@@ -1,7 +1,7 @@
-import { union } from "lodash";
+import { sortBy, union } from "lodash";
 import { createSelector } from "reselect";
 import tasks from "../../backend/tasks";
-import { ACTIVE } from "../../components/task/states";
+import { ACTIVE, FINISHED } from "../../components/task/states";
 import {
   ADD_TASK_SUCCESS,
   SET_TASKS_VISIBILITY_FILTER,
@@ -14,6 +14,7 @@ const initialState = {
   allTasks: [],
   visibilityFilter: "ALL",
 };
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -32,13 +33,13 @@ const reducer = (state = initialState, action) => {
 const allTasks = (state = tasks, { type, payload }) => {
   switch (type) {
     case FETCH_TASKS_SUCCESS:
-        return payload;
+        return [...payload].reverse();
     case EDIT_TASK_SUCCESS:
       return state.map((task) =>
         task.id === payload.task.id ? payload.task : task
       );
     case ADD_TASK_SUCCESS:
-      return union(state, [payload.task]);
+      return [payload.task,  ...state]; 
     case DELETE_TASK_SUCCESS:
       return state.filter((task) => task.id !== payload.id);
     default:
@@ -46,15 +47,15 @@ const allTasks = (state = tasks, { type, payload }) => {
   }
 };
 
-export const selectAll = (state) =>
+const selectAll = (state) =>
   state.allTasks.sort((a, b) => (a.createdAt < b.createdAt ? 1 : 0));
 
-export const selectById = (state, id) =>
+const selectById = (state, id) =>
   state.allTasks.find((task) => task.id === id);
 
-export const selectVisibilityFilter = (state) => state.visibilityFilter;
+const selectVisibilityFilter = (state) => state.visibilityFilter;
 
-export const selectVisible = createSelector(
+const selectVisible = createSelector(
   selectAll,
   selectVisibilityFilter,
   (tasks, visibilityFilter) =>{
@@ -62,9 +63,24 @@ export const selectVisible = createSelector(
   }
 );
 
-export const selectActiveCount = (state) =>
-  state.allTasks.reduce((count, { status }) => {
-    return status === ACTIVE ? ++count : count;
+const selectActiveCount = (state) => countTasksByStatus(state.allTasks, ACTIVE);
+const selectFinishedCount = (state) => countTasksByStatus(state.allTasks, FINISHED);
+const selectPausedCount = (state) => countTasksByStatus(state.allTasks, FINISHED);
+
+const countTasksByStatus = (tasks, status) => {
+  return tasks.reduce((count, t ) => {
+    return t.status === status ? ++count : count;
   }, 0);
+}
+
+export const selectors = {
+  selectAll,
+  selectById,
+  selectVisibilityFilter,
+  selectVisible,
+  selectActiveCount,
+  selectFinishedCount,
+  selectPausedCount,
+}
 
 export default reducer;

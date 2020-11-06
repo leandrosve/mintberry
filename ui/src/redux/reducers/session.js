@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "../actions/types";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, FETCH_PROFILE_SUCCESS } from "../actions/types";
 const initialState = {
   user: null,
   isAuthenticated: false,
@@ -10,8 +10,9 @@ const initialState = {
 
 export const loadInitialState = () => {
   const auth = JSON.parse(localStorage.getItem("auth")) || {};
+  const user = JSON.parse(localStorage.getItem("user")) || {};
   return {
-    user: null,
+    user: user,
     isAuthenticated: auth.accessToken ? true : false,
     auth: {
       accessToken: auth.accessToken,
@@ -22,6 +23,8 @@ export const loadInitialState = () => {
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case FETCH_PROFILE_SUCCESS:
+      return {...state, user:payload}
     case LOGIN_REQUEST:
     case LOGIN_FAILURE:
       return initialState;
@@ -39,7 +42,15 @@ const reducer = (state = initialState, { type, payload }) => {
   }
 };
 
-export const selectIsAuthenticated = state => state.isAuthenticated;
-export const selectAccessToken = state => state.isAuthenticated; 
+const selectIsAuthenticated = state => state.isAuthenticated;
+const selectAccessToken = state => state.auth.accessToken;
+const selectProfile = state => state.user;
+const selectUsername = state => (selectProfile(state) || {}).username;
+export const selectors = {
+  selectAccessToken,
+  selectIsAuthenticated,
+  selectProfile,
+  selectUsername,
+}
 
 export default reducer;
