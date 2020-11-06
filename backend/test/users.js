@@ -1,3 +1,4 @@
+const { util } = require("chai");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const { after } = require("mocha");
@@ -37,6 +38,11 @@ describe("Users API", () => {
       console.log("Error in [after] cleanup");
     }
   });
+  afterEach(function(){
+    if (this.currentTest.state == 'failed') { 
+      console.log("    Response body: " + util.inspect(response.body,{depth: null, colors: true}) + "\n");
+    }
+  })
 
   /**
    * Test the LOGIN route

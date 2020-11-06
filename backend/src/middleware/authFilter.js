@@ -1,5 +1,5 @@
-const RequestError = require("../error/RequestError");
-const { extractTokenFromHeader, verifyAccessToken } = require("../helpers/jwt");
+const { extractTokenFromHeader} = require("../helpers/jwt");
+const { extractUserFromToken } = require("../services/userService");
 
 const exceptedPaths = [
   "/api/users/login",
@@ -15,12 +15,8 @@ module.exports = async (req, res, next) => {
       return next();
     }
     const token = extractTokenFromHeader(req);
-    if(!token) throw RequestError.invalidToken();
-    const user = await verifyAccessToken(token);
-    if(!user){
-      throw RequestError.invalidToken();
-    }
-    req.user=user;
+    const user = await extractUserFromToken(token);
+    req.user= user;
     return next()
   } catch (error) {
     next(error)

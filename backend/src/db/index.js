@@ -1,5 +1,3 @@
-
-
 const Sequelize = require('sequelize');
 
 const ENV =  process.env.NODE_ENV;

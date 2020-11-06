@@ -8,6 +8,7 @@ const formatSequelizeError = (err) =>{
   const prefix="errors.sequelize";
   return RequestError.badRequest(i18next.t(`${prefix}.${first.path}_${first.validatorKey}`), first.path)
 }
+
 const errorHandler = (err, req, res, next) => {
   try {
     if(process.env.NODE_ENV==="development") console.trace({err});

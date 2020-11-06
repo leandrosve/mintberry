@@ -1,11 +1,19 @@
 const RefreshToken = require("../db/models/RefreshToken");
 const User = require("../db/models/User");
 const RequestError = require("../error/RequestError");
-const { generateTokensForUser, verifyRefreshToken } = require("../helpers/jwt");
+const { generateTokensForUser, verifyRefreshToken, verifyAccessToken } = require("../helpers/jwt");
 const { encryptPassword, comparePasswords } = require("../helpers/passwords");
 const { validate } = require("../helpers/validator");
 const loginSchema = require("../validation/schemas/users/login");
 const signupSchema = require("../validation/schemas/users/signup");
+
+
+exports.extractUserFromToken = async (token) =>{
+  if(!token) throw RequestError.invalidToken();
+  const user = await verifyAccessToken(token);
+  if(!user) throw RequestError.invalidToken();
+  return user;
+}
 
 exports.authenticateUser = async ({ email, password }) => {
   validateLoginInfo({ email, password });
