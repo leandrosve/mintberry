@@ -1,15 +1,20 @@
-const Sequelize = require('sequelize');
+const {Sequelize} = require('sequelize');
 
 const ENV =  process.env.NODE_ENV;
-const enableLogging = () => ENV !== "testing" ? true : false;
-const HOST = ENV === "testing" ? process.env.DB_HOST : process.env.DB_HOST;
 
 // Option 1: Passing parameters separately
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-  host: HOST,
-  dialect:'mysql' ,
-  logging: enableLogging,
-});
+const sequelize = ENV === "testing" ?
+new Sequelize("postgres", "postgres", "root", {
+  host: process.env.DB_TEST_HOST,
+  dialect: "postgres" ,
+  logging: false,
+})
+:
+new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  dialect: "mysql" ,
+  logging: false,
+})
 
 sequelize.authenticate()
   //.then(() => console.log("connected to database"))

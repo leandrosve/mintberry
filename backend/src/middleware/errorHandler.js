@@ -11,7 +11,9 @@ const formatSequelizeError = (err) =>{
 
 const errorHandler = (err, req, res, next) => {
   try {
+    //console.log({err});
     if(process.env.NODE_ENV==="development") console.trace({err});
+    
     if (err instanceof RequestError) return res.status(err.status).send({...err, error:{...err.error, message:i18next.t(err.error.message)}});
     if( err instanceof SequelizeValidationError) return res.status(400).send(formatSequelizeError(err))
     if( err instanceof JoiValidationError) return res.status(400).send( RequestError.badRequest(err.details[0].message));

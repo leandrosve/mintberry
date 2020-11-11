@@ -1,12 +1,8 @@
-const { Sequelize } = require("sequelize");
-var db = require("../");
-const Task = require("./Task");
-const Model = Sequelize.Model;
+const sequelize  = require("../index");
+const {Sequelize} = require("sequelize");
 
-class User extends Model {};
-
-User.init(
-  {
+const User = sequelize.define("user",
+    {
     id:{
       type: Sequelize.INTEGER,
       primaryKey:true,
@@ -26,17 +22,17 @@ User.init(
       allowNull: false,
       type: Sequelize.STRING,
     },
+    
   },
   {
-    sequelize: db,
-    modelName: "user",
     // options
-    timestamps: false
+    timestamps: false,
   }
 );
 
-User.hasMany(Task,{as: 'tasks', foreignKey: 'userId'})
 
-Task.belongsTo(User, {foreignKey: 'userId'});
+
+
+
 
 module.exports= User;

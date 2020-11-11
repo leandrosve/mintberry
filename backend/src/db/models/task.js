@@ -1,12 +1,9 @@
 const { Sequelize } = require("sequelize");
-var db = require("../");
+const sequelize  = require("../index");
 
-const Model = Sequelize.Model;
-const User = require("./User");
+const User = require("./user");
 
-class Task extends Model {}
-
-Task.init(
+const Task = sequelize.define('task',
   {
     userId: {
       type: Sequelize.INTEGER,
@@ -54,11 +51,11 @@ Task.init(
     },
   },
   {
-    sequelize: db,
-    modelName: "task",
     // options
     timestamps: false,
   }
 );
+
+
 
 module.exports = Task;

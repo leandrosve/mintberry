@@ -1,17 +1,37 @@
 //everything in this module is assumed truthful and tests can count on it.
+require('dotenv').config();
+const { generateTokensForUser } = require("../src/helpers/jwt");
 
-const validAuthHeader =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsInVzZXJuYW1lIjoibGVhbmRybyIsImVtYWlsIjoibGVhbmRyb0BnbWFpbC5jb20iLCJpYXQiOjE2MDM2NTc4ODUsImV4cCI6MTYzNTE5Mzg4NX0.iZFa6Sxq-lrcLu8Km0Lxj_f87PNH4GuObA6TG0M63Ds";
+const testHero = {
+  id: 1,
+  username: "testHero",
+  email: "testHero@test.com",
+  password: "TestHero123",
+};
+const testVillain = {
+  id: 2,
+  username: "testVillain",
+  email: "testVillain@test.com",
+  password: "TestVillain123",
+};
 
-const validRefreshToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsInVzZXJuYW1lIjoibGVhbmRybyIsImVtYWlsIjoibGVhbmRyb0BnbWFpbC5jb20iLCJpYXQiOjE2MDM3NDI2Mzd9.AuqiGyz6stZJJtyWNVVMt9hDDJq5e6pkoasd4iS4w9U";
+const testHeroId = testHero.id;
+const testVillainId = testVillain.id;
 
-const taskOwnerId = 26;
-const notTaskOwnerId = 27;
+const generateAuth = () => {
+  const tokens = generateTokensForUser(testHero);
+  return {
+    testHeroValidAuthHeader: "Bearer " + tokens.accessToken,
+    testHeroValidRefreshToken: tokens.refreshToken,
+  };
+}
+const { testHeroValidAuthHeader, testHeroValidRefreshToken } = generateAuth();
 
 module.exports = {
-  validAuthHeader,
-  taskOwnerId,
-  notTaskOwnerId,
-  validRefreshToken,
+  testHeroValidAuthHeader,
+  testHeroValidRefreshToken,
+  testHero,
+  testVillain,
+  testHeroId,
+  testVillainId,
 };

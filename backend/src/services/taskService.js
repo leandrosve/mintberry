@@ -1,9 +1,8 @@
 const { validate, removeEmpty, isObjectEmpty } = require("../helpers/validator");
 const taskSchema = require("../validation/schemas/tasks/task");
-const Task = require("../db/models/Task");
-const RequestError = require("../error/RequestError");
-const User = require("../db/models/User");
+const {User,Task} = require("../db/models/");
 const updateTaskSchema = require("../validation/schemas/tasks/updateTask");
+const RequestError = require("../error/RequestError");
 
 const createTaskForUser = async (taskInfo, user) => {
   validateTaskInfo(taskInfo);

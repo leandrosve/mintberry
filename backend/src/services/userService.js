@@ -1,5 +1,4 @@
-const RefreshToken = require("../db/models/RefreshToken");
-const User = require("../db/models/User");
+const {User,RefreshToken} = require("../db/models/");
 const RequestError = require("../error/RequestError");
 const { generateTokensForUser, verifyRefreshToken, verifyAccessToken } = require("../helpers/jwt");
 const { encryptPassword, comparePasswords } = require("../helpers/passwords");

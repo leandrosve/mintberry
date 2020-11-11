@@ -2,68 +2,71 @@ const { util } = require("chai");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const server = require("../src/app");
-const Task = require("../src/db/models/Task");
-const { validAuthHeader, taskOwnerId } = require("./premises");
+const { Task} = require("../src/db/models");
+
+const {
+  testHeroId,
+  testVillainId,
+  testHeroValidAuthHeader,
+} = require("./premises");
 
 chai.should();
 
 chai.use(chaiHttp);
 
 describe("Tasks API", () => {
-
-  /*
-  before(async()=>{
+  before(async () => {
     try {
-      await Task.create({id:9999, userId:27, title:"Forbidden Task", description:"forbidden task", expiresAt:new Date()})
+      
+      await Task.destroy({ where: { id: 1 } });
+
+      await Task.destroy({ where: { id: 2 } });
+
+      await Task.destroy({ where: { id: 3 } });
+
+      
+      
+      //creates test hero's task
+      await Task.create({
+        id: 1,
+        userId: testHeroId,
+        title: "testHero's task",
+        description: "this is a test task",
+        expiresAt: new Date(),
+      });
+      //creates test hero's task
+      await Task.create({
+        id: 3,
+        userId: testHeroId,
+        title: "testHero's cancelled task",
+        status: "CANCELLED",
+        description: "this is a cancelled test task",
+        expiresAt: new Date(),
+      });
+      //creates test villain's task
+      await Task.create({
+        id: 2,
+        userId: testVillainId,
+        title: "testVillain's task",
+        description: "this is a test task",
+        expiresAt: new Date(),
+      });
+
     } catch (error) {
       console.log("Error at [before] statement while trying to create a task.");
       console.log(error);
-    }
-   })
-  */
-
-  before(async () => {
-    try {
-      await Task.create({
-        id: 10000,
-        userId: taskOwnerId,
-        title: "This is gonna be deleted",
-        description: "bye bye world",
-        expiresAt: new Date(),
-      });
-      await Task.create({
-        id: 10001,
-        userId: taskOwnerId,
-        title: "This task is cancelled",
-        description: "i am cancelled",
-        status: "CANCELLED",
-        expiresAt: new Date(),
-      });
-    } catch (error) {
-      console.log("Error at [before] statement while trying to create a task.");
-      //console.log(error);
-    }
-  });
-
-  after(async () => {
-    try {
-      await Task.destroy({ where: { id: 10001 } });
-      await Task.destroy({ where: { id: 10000 } });
-    } catch (error) {
-      console.log("Error at [before] statement while trying to delete a task.");
     }
   });
 
   /**
    * Test the GET route
    */
-  
-  let path = "/api/tasks";
+
   describe("GET /api/tasks", () => {
     it("It should fail because it's unauthorized", (done) => {
       chai
         .request(server)
-        .get(path)
+        .get("/api/tasks")
         .end((err, response) => {
           response.should.have.status(401);
           done();
@@ -72,8 +75,8 @@ describe("Tasks API", () => {
     it("It should return an array", (done) => {
       chai
         .request(server)
-        .get(path)
-        .set("Authorization", validAuthHeader)
+        .get("/api/tasks")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(200);
           response.body.should.a("array");
@@ -90,7 +93,7 @@ describe("Tasks API", () => {
     it("It should fail because it's unauthorized", (done) => {
       chai
         .request(server)
-        .get("/api/tasks/5")
+        .get("/api/tasks/")
         .end((err, response) => {
           response.should.have.status(401);
           done();
@@ -100,7 +103,7 @@ describe("Tasks API", () => {
       chai
         .request(server)
         .get("/api/tasks/51241")
-        .set("Authorization", validAuthHeader)
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(404);
           done();
@@ -109,23 +112,23 @@ describe("Tasks API", () => {
     it(`It should return status 403 because the requested task doesn't belong to the user`, (done) => {
       chai
         .request(server)
-        .get("/api/tasks/9999")
-        .set("Authorization", validAuthHeader)
+        .get("/api/tasks/2")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(403);
           done();
         });
     });
 
-    it("It should return an object with id 5", (done) => {
+    it("It should return an object with id 1", (done) => {
       chai
         .request(server)
-        .get("/api/tasks/5")
-        .set("Authorization", validAuthHeader)
+        .get("/api/tasks/1")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(200);
           response.body.should.be.a("object");
-          response.body.should.have.property("id").which.equals(5);
+          response.body.should.have.property("id").which.equals(1);
           done();
         });
     });
@@ -150,7 +153,7 @@ describe("Tasks API", () => {
       chai
         .request(server)
         .post("/api/tasks")
-        .set("Authorization", validAuthHeader)
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(400);
           done();
@@ -161,7 +164,7 @@ describe("Tasks API", () => {
       chai
         .request(server)
         .post("/api/tasks")
-        .set("Authorization", validAuthHeader)
+        .set("Authorization", testHeroValidAuthHeader)
         .send({ title: "", description: "testing task", expiresAt: new Date() })
         .end((err, response) => {
           response.should.have.status(400);
@@ -178,7 +181,7 @@ describe("Tasks API", () => {
       chai
         .request(server)
         .post("/api/tasks")
-        .set("Authorization", validAuthHeader)
+        .set("Authorization", testHeroValidAuthHeader)
         .send(sendData)
         .end((err, response) => {
           response.should.have.status(201);
@@ -201,7 +204,7 @@ describe("Tasks API", () => {
     it("It should fail because it's unauthorized", (done) => {
       chai
         .request(server)
-        .post("/api/tasks/6/pause")
+        .post("/api/tasks/1/pause")
         .end((err, response) => {
           response.should.have.status(401);
           done();
@@ -210,8 +213,8 @@ describe("Tasks API", () => {
     it(`It should return status 403 because the task doesn't belong to the user`, (done) => {
       chai
         .request(server)
-        .post("/api/tasks/9999/pause")
-        .set("Authorization", validAuthHeader)
+        .post(`/api/tasks/2/pause`)
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(403);
           done();
@@ -220,8 +223,8 @@ describe("Tasks API", () => {
     it(`It should return status 400 because the action is invalid`, (done) => {
       chai
         .request(server)
-        .post("/api/tasks/10000/lalalala")
-        .set("Authorization", validAuthHeader)
+        .post("/api/tasks/1/lalalala")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(400);
           done();
@@ -230,11 +233,11 @@ describe("Tasks API", () => {
     it(`It should return status 200 and the updated task with PAUSED status`, (done) => {
       chai
         .request(server)
-        .post("/api/tasks/10000/pause")
-        .set("Authorization", validAuthHeader)
+        .post("/api/tasks/1/pause")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(200);
-          response.body.should.have.property("id").which.equals(10000);
+          response.body.should.have.property("id").which.equals(1);
           response.body.should.have.property("status").which.equals("PAUSED");
           done();
         });
@@ -242,11 +245,11 @@ describe("Tasks API", () => {
     it(`It should return status 200 and the updated task with RUNNING status`, (done) => {
       chai
         .request(server)
-        .post("/api/tasks/10000/start")
-        .set("Authorization", validAuthHeader)
+        .post("/api/tasks/1/start")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(200);
-          response.body.should.have.property("id").which.equals(10000);
+          response.body.should.have.property("id").which.equals(1);
           response.body.should.have.property("status").which.equals("RUNNING");
           done();
         });
@@ -254,11 +257,11 @@ describe("Tasks API", () => {
     it(`It should return status 200 and the updated task with FINISHED status and when it was finished`, (done) => {
       chai
         .request(server)
-        .post("/api/tasks/10000/finish")
-        .set("Authorization", validAuthHeader)
+        .post("/api/tasks/1/finish")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(200);
-          response.body.should.have.property("id").which.equals(10000);
+          response.body.should.have.property("id").which.equals(1);
           response.body.should.have.property("status").which.equals("FINISHED");
           response.body.should.have.property("finishedAt").which.is.not.null;
           done();
@@ -267,8 +270,8 @@ describe("Tasks API", () => {
     it(`It should return status 400 because a finished task cannot be started again`, (done) => {
       chai
         .request(server)
-        .post("/api/tasks/10000/finish")
-        .set("Authorization", validAuthHeader)
+        .post("/api/tasks/1/finish")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(400);
           done();
@@ -277,8 +280,8 @@ describe("Tasks API", () => {
     it(`It should return status 400 because a cancelled task cannot be finished`, (done) => {
       chai
         .request(server)
-        .post("/api/tasks/10001/finish")
-        .set("Authorization", validAuthHeader)
+        .post("/api/tasks/3/finish")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(400);
           done();
@@ -287,8 +290,8 @@ describe("Tasks API", () => {
     it(`It should return status 400 because a cancelled task cannot be started again`, (done) => {
       chai
         .request(server)
-        .post("/api/tasks/10001/start")
-        .set("Authorization", validAuthHeader)
+        .post("/api/tasks/3/start")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(400);
           done();
@@ -314,7 +317,7 @@ describe("Tasks API", () => {
       chai
         .request(server)
         .delete("/api/tasks/32123")
-        .set("Authorization", validAuthHeader)
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(404);
           done();
@@ -323,8 +326,8 @@ describe("Tasks API", () => {
     it(`It should return status 403 because the task doesn't belong to the user`, (done) => {
       chai
         .request(server)
-        .delete("/api/tasks/9999")
-        .set("Authorization", validAuthHeader)
+        .delete("/api/tasks/2")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(403);
           done();
@@ -333,8 +336,8 @@ describe("Tasks API", () => {
     it(`It should return status 200 and the deleted task`, (done) => {
       chai
         .request(server)
-        .delete("/api/tasks/10000")
-        .set("Authorization", validAuthHeader)
+        .delete("/api/tasks/3")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(200);
           response.body.should.have.property("id").which.is.a("number");
@@ -351,7 +354,7 @@ describe("Tasks API", () => {
     it("It should fail because it's unauthorized", (done) => {
       chai
         .request(server)
-        .patch("/api/tasks/6")
+        .patch("/api/tasks/2")
         .end((err, response) => {
           response.should.have.status(401);
           done();
@@ -361,8 +364,8 @@ describe("Tasks API", () => {
     it("It should fail and return status 400 because the request body is empty.", (done) => {
       chai
         .request(server)
-        .patch("/api/tasks/5")
-        .set("Authorization", validAuthHeader)
+        .patch("/api/tasks/1")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(400);
           done();
@@ -372,8 +375,8 @@ describe("Tasks API", () => {
     it(`It should return status 403 because the task doesn't belong to the user`, (done) => {
       chai
         .request(server)
-        .patch("/api/tasks/9999")
-        .set("Authorization", validAuthHeader)
+        .patch("/api/tasks/2")
+        .set("Authorization", testHeroValidAuthHeader)
         .end((err, response) => {
           response.should.have.status(403);
           done();
@@ -383,9 +386,9 @@ describe("Tasks API", () => {
     it(`It should return status 400 because the title is empty`, (done) => {
       chai
         .request(server)
-        .patch("/api/tasks/5")
-        .set("Authorization", validAuthHeader)
-        .send({title: "", description:"this description has been modified"})
+        .patch("/api/tasks/1")
+        .set("Authorization", testHeroValidAuthHeader)
+        .send({ title: "", description: "this description has been modified" })
         .end((err, response) => {
           response.should.have.status(400);
           done();
@@ -395,17 +398,23 @@ describe("Tasks API", () => {
     it(`It should return status 200 and the modified task info`, (done) => {
       chai
         .request(server)
-        .patch("/api/tasks/5")
-        .set("Authorization", validAuthHeader)
-        .send({title: "This title has been modified", description:"this description has been modified"})
+        .patch("/api/tasks/1")
+        .set("Authorization", testHeroValidAuthHeader)
+        .send({
+          title: "This title has been modified",
+          description: "this description has been modified",
+        })
         .end((err, response) => {
           response.should.have.status(200);
-          response.body.should.have.property('id').which.equals(5);
-          response.body.should.have.property('title').which.equals("This title has been modified");
-          response.body.should.have.property('description').which.equals("this description has been modified")
+          response.body.should.have.property("id").which.equals(1);
+          response.body.should.have
+            .property("title")
+            .which.equals("This title has been modified");
+          response.body.should.have
+            .property("description")
+            .which.equals("this description has been modified");
           done();
         });
     });
   });
-
 });
