@@ -15,7 +15,7 @@ const combinedReducers = combineReducers({
 
 const rootReducer = (state, action) => {
   if (action.type === "LOGOUT") {
-    state = undefined;
+    state = {notification: state.notification};
   }
   return combinedReducers(state, action);
 };
@@ -62,5 +62,10 @@ export const selectIsUserAuthenticated = (state) =>
 export const selectProfile = state => sessionSelectors.selectProfile(state.session);
 
 export const selectUsername = state => sessionSelectors.selectUsername(state.session);
+
+
+export const selectAccessToken = state => sessionSelectors.selectAccessToken(state.session);
+
+export const selectRefreshToken = state => sessionSelectors.selectRefreshToken(state.session);
 
 export default rootReducer;

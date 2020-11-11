@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, FETCH_PROFILE_SUCCESS } from "../actions/types";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, FETCH_PROFILE_SUCCESS, REFRESH_TOKEN_SUCCESS } from "../actions/types";
 const initialState = {
   user: null,
   isAuthenticated: false,
@@ -22,13 +22,14 @@ export const loadInitialState = () => {
 };
 
 const reducer = (state = initialState, { type, payload }) => {
-  switch (type) {
+  switch (type) {    
     case FETCH_PROFILE_SUCCESS:
       return {...state, user:payload}
     case LOGIN_REQUEST:
     case LOGIN_FAILURE:
       return initialState;
     case LOGIN_SUCCESS:
+    case REFRESH_TOKEN_SUCCESS:
       return {
         ...state,
         isAuthenticated:true,
@@ -44,10 +45,12 @@ const reducer = (state = initialState, { type, payload }) => {
 
 const selectIsAuthenticated = state => state.isAuthenticated;
 const selectAccessToken = state => state.auth.accessToken;
+const selectRefreshToken = state => state.auth.refreshToken;
 const selectProfile = state => state.user;
 const selectUsername = state => (selectProfile(state) || {}).username;
 export const selectors = {
   selectAccessToken,
+  selectRefreshToken,
   selectIsAuthenticated,
   selectProfile,
   selectUsername,

@@ -7,18 +7,18 @@ import { LevelRight } from "bloomer/lib/components/Level/LevelRight";
 import { LevelItem } from "bloomer/lib/components/Level/LevelItem";
 import { LevelLeft } from "bloomer/lib/components/Level/LevelLeft";
 import { Form, Formik } from "formik";
-import TextField from "./TextField";
+import TextField from "../TextField";
 import { useDispatch, useSelector } from "react-redux";
-import { openRegisterForm } from "../redux/actions/modal";
-import loginSchema from "../validations/loginSchema";
+import { openRegisterForm } from "../../redux/actions/modal";
+import loginSchema from "../../validations/loginSchema";
 import { useTranslation } from "react-i18next";
-import NotificationContainer from "../containers/NotificationContainer";
-import { login } from "../redux/actions/session";
-import { LOGIN_REQUEST, SIGNUP_REQUEST } from "../redux/actions/types";
-import Spinner from "./util/Spinner";
-import { selectIsRequestLoading } from "../redux/reducers";
+import NotificationContainer from "../../containers/NotificationContainer";
+import { login } from "../../redux/actions/session";
+import { LOGIN_REQUEST, REFRESH_TOKEN_REQUEST, SIGNUP_REQUEST } from "../../redux/actions/types";
+import Spinner from "../util/Spinner";
+import { selectIsRequestLoading } from "../../redux/reducers";
 
-const LoginForm = ({showSignupSuccess = true}) => {
+const LoginForm = ({showSignupSuccess = true, showNotifications=true}) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [canSubmit, setCanSubmit] = useState(true);
@@ -40,8 +40,12 @@ const LoginForm = ({showSignupSuccess = true}) => {
             <Title className="has-text-centered" isSize={4}>
               {t("login")}
             </Title>
-            <NotificationContainer concerns={[LOGIN_REQUEST, showSignupSuccess ? SIGNUP_REQUEST : undefined]}/>
-            <Spinner isVisible={loading}/>
+            { showNotifications &&
+              <>
+                <NotificationContainer concerns={[LOGIN_REQUEST, showSignupSuccess ? SIGNUP_REQUEST : undefined, REFRESH_TOKEN_REQUEST]}/>  
+                <Spinner isVisible={loading}/>
+              </>
+            }
             <TextField
               label={t("fields.email")}
               type="email"

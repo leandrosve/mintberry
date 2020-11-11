@@ -7,18 +7,18 @@ import { LevelRight } from "bloomer/lib/components/Level/LevelRight";
 import { LevelItem } from "bloomer/lib/components/Level/LevelItem";
 import { LevelLeft } from "bloomer/lib/components/Level/LevelLeft";
 import { Form, Formik } from "formik";
-import TextField from "./TextField";
-import { openLoginForm } from "../redux/actions/modal";
+import TextField from "../TextField";
+import { openLoginForm } from "../../redux/actions/modal";
 import { useDispatch, useSelector } from "react-redux";
-import signupSchema from "../validations/signupSchema";
+import signupSchema from "../../validations/signupSchema";
 import { useTranslation } from "react-i18next";
-import { SIGNUP_REQUEST } from "../redux/actions/types";
-import NotificationContainer from "../containers/NotificationContainer";
-import { signup } from "../redux/actions/user";
-import { selectIsRequestLoading } from "../redux/reducers";
-import Spinner from "./util/Spinner";
+import { SIGNUP_REQUEST } from "../../redux/actions/types";
+import NotificationContainer from "../../containers/NotificationContainer";
+import { signup } from "../../redux/actions/user";
+import { selectIsRequestLoading } from "../../redux/reducers";
+import Spinner from "../util/Spinner";
 
-const SignupForm = () => {
+const SignupForm = ({showNotifications=true}) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [canSubmit, setCanSubmit] = useState(true);
@@ -40,11 +40,15 @@ const SignupForm = () => {
             <Title className="has-text-centered" isSize={4}>
               {t("signup")}
             </Title>
-            <NotificationContainer
-              concerns={[SIGNUP_REQUEST]}
-              onlyErrors={true}
-            />
-            <Spinner isVisible={loading}/>
+            {showNotifications &&
+              <>
+                <NotificationContainer
+                  concerns={[SIGNUP_REQUEST]}
+                  onlyErrors={true}
+                />
+                <Spinner isVisible={loading}/>
+              </>
+            }
             <TextField
               label={t("fields.username")}
               type="text"

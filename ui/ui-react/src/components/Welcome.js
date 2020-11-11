@@ -27,7 +27,7 @@ const Welcome = () => {
   
   return (
     <Hero isColor="primary">
-      <HeroBody>
+      <HeroBody className="p-2">
         <Container
           isFluid
           style={{
@@ -42,7 +42,7 @@ const Welcome = () => {
             style={{ height: "128px", width: "128px" }}
           />
           <Title
-            className="has-text-centered"
+            className="has-text-centered m-1"
             isSize={3}
             style={{ textShadow: "2px 4px 3px rgba(0,0,0,0.3)" }}
           >
@@ -50,13 +50,13 @@ const Welcome = () => {
           </Title>
           {isAuthenticated && (
             <>
-            <Subtitle>
-            <Trans i18nKey="welcomeMessage" count={activeCount}>
+            <Subtitle className="m-1">
+            <Trans i18nKey="welcomeMessage" count={2}>
               Welcome <strong>{{name:username}}</strong>, you have <strong>{{count:activeCount}}</strong> active tasks.
             </Trans>
             </Subtitle>
             {finishedCount > 0 && 
-            <Tag style={{cursor:"pointer"}} isSize={5} className="is-secondary is-size-6 p-2" onClick={()=>dispatch(setVisibilityFilter(FINISHED))}>
+            <Tag style={{cursor:"pointer"}} isSize={5} className="is-secondary is-size-6 p-1" onClick={()=>dispatch(setVisibilityFilter(FINISHED))}>
               {t("finishedTasks")}: {finishedCount}
             </Tag>
             }

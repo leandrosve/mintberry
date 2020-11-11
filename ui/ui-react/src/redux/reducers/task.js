@@ -1,4 +1,3 @@
-import { sortBy, union } from "lodash";
 import { createSelector } from "reselect";
 import tasks from "../../backend/tasks";
 import { ACTIVE, FINISHED } from "../../components/task/states";

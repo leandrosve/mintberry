@@ -27,7 +27,7 @@ const Navbar = ({ isLoggedIn = false , username}) => {
   const changeLanguage = (lang) => {if(!isLanguageActive(lang))i18next.changeLanguage(lang)};
 
   return (
-    <BulmaNavbar>
+    <BulmaNavbar >
       <NavbarBurger
         className="is-pulled-left"
         isActive={isMenuActive}
@@ -42,24 +42,24 @@ const Navbar = ({ isLoggedIn = false , username}) => {
         <NavbarStart>
           <NavbarItem href="/">{t("home")}</NavbarItem>
           <NavbarItem hasDropdown isHoverable>
-            <NavbarLink>{t("lang")}</NavbarLink>
-            <NavbarDropdown >
+            <NavbarLink >{t("lang")}</NavbarLink>
+            <NavbarDropdown  >
               <NavbarItem
-                className="navbar-link is-arrowless is-hoverable"
+                className="navbar-link is-arrowless "
                 isActive={isLanguageActive("es")}
                 onClick={() => changeLanguage("es")}
               >
                 ES
               </NavbarItem>
               <NavbarItem
-                className="navbar-link is-arrowless is-hoverable"
+                className="navbar-link is-arrowless"
                 isActive={isLanguageActive("en")}
                 onClick={() => changeLanguage("en")}
               >
                 EN
               </NavbarItem>
             </NavbarDropdown>
-          </NavbarItem>
+          </NavbarItem>       
         </NavbarStart>
         <NavbarEnd>
           {isLoggedIn ? (

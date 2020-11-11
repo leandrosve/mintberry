@@ -58,10 +58,12 @@ export default {
       resourceNotFound: "Sorry, we couldn't find the requested resource",
       taskAdd:"There was an error while trying to create the task.",
       taskStatus:"There was an error while trying to change the task status.",
+      sessionExpired:"Session expired, please log in again!"
     },
     actions: {
       add: "Add",
       taskAdd: "Add task",
+      taskEdit: "Edit task",
       imageUpload: "Upload image",
       avatarChange: "Change avatar",
       start: "Start",
@@ -70,6 +72,7 @@ export default {
       finish: "Finalize",
       edit: "Edit",
       delete: "Delete",
+      save: "Save",
     },
     dates: {
       thisMonth: "this month",

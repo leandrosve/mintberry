@@ -59,10 +59,12 @@ export default {
       resourceNotFound: "Lo sentimos, no pudimos encontrar el recurso solicitado.",
       taskAdd:"No se ha podido agregar la tarea.",
       taskStatus:"No se ha podido cambiar el estado de la tarea.",
+      sessionExpired:"La sesión ha expirado, vuelve a iniciar sesión!"
     },
     actions: {
       add: "Añadir",
       taskAdd: "Añadir una tarea",
+      taskEdit: "Editar tarea",
       imageUpload: "Subir una imagen",
       avatarChange: "Cambiar imágen",
       start: "Comenzar",
@@ -71,9 +73,10 @@ export default {
       finish: "Finalizar",
       edit: "Editar",
       delete: "Eliminar",
+      save: "Guardar",
     },
     dates: {
-      thisMonth: "éste mes",
+      thisMonth: "este mes",
       seconds: "segundo[s]",
       minutes: "minuto[s]",
       hours: "hora[s]",

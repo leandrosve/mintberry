@@ -1,15 +1,56 @@
-import { FETCH_PROFILE_FAILURE, FETCH_PROFILE_REQUEST, FETCH_PROFILE_SUCCESS, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT } from "./types";
+import {
+  FETCH_PROFILE_FAILURE,
+  FETCH_PROFILE_REQUEST,
+  FETCH_PROFILE_SUCCESS,
+  LOGIN_FAILURE,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  REFRESH_TOKEN_FAILURE,
+  REFRESH_TOKEN_SUCCESS,
+} from "./types";
 import API from "../../api";
 import { closeModal } from "./modal";
+import { selectRefreshToken } from "../reducers";
 
 export const logout = () => {
   return async (dispatch, getStore) => {
     try {
-      localStorage.clear();
-      const refreshToken = getStore().session.auth.refreshToken;
-      await API.post("/users/logout", { refreshToken });
-      dispatch({ type: LOGOUT });
+      const refreshToken = selectRefreshToken(getStore());
+      await API.post(
+        "/users/logout",
+        { refreshToken },
+        { skipAuthRefresh: true }
+      );
+      dispatch(destroySession());
     } catch (error) {}
+  };
+};
+
+export const refreshTokenSuccess = ({ refreshToken, accessToken }) => {
+  return (dispatch) => {
+    localStorage.setItem("auth", JSON.stringify({refreshToken, accessToken}));
+    dispatch({
+      type: REFRESH_TOKEN_SUCCESS,
+      payload: { refreshToken, accessToken },
+    });
+  };
+};
+
+export const refreshTokenFailure = () => {
+  return (dispatch) => {
+    dispatch({
+      type: REFRESH_TOKEN_FAILURE,
+      payload: { message: "error.sessionExpired" },
+    });
+    setTimeout(() => dispatch(destroySession()), 400);
+  };
+};
+
+export const destroySession = () => {
+  return (dispatch) => {
+    localStorage.clear();
+    dispatch({ type: LOGOUT });
   };
 };
 
@@ -33,7 +74,7 @@ const loginFailure = (error) => ({
 export const login = ({ email, password }) => {
   return async (dispatch) => {
     dispatch(loginRequest());
-    API.post("/users/login", { email, password })
+    API.post("/users/login", { email, password }, { skipAuthRefresh: true })
       .then(({ data }) => {
         localStorage.setItem("auth", JSON.stringify(data));
         dispatch(closeModal());

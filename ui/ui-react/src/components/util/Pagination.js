@@ -5,11 +5,11 @@ import { PageList } from "bloomer/lib/components/Pagination/PageList";
 import { PageLink } from "bloomer/lib/components/Pagination/PageLink";
 import { Page } from "bloomer/lib/components/Pagination/Page";
 
-const Pagination = ({ pageCount, currentPage, handleClick }) => {
+const Pagination = ({ pageCount, currentPage, handleClick, ...params }) => {
   if (pageCount < 2) return <></>;
   let pageList = [...Array(pageCount).keys()];
   return (
-    <BulmaPagination>
+    <BulmaPagination {...params}>
       <PageList className="is-justify-content-center">
         <PageLink
           disabled={currentPage === 1}
@@ -24,7 +24,7 @@ const Pagination = ({ pageCount, currentPage, handleClick }) => {
           const page = i + 1;
 
           return (
-            <Page>
+            <Page key={page}>
               <PageLink
                 onClick={() => handleClick(page)}
                 isCurrent={currentPage === page}

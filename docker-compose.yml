@@ -17,8 +17,10 @@ services:
       DB_USER: root
       DB_PASSWORD: root
       DB_NAME: mintberry
+      DB_TEST_HOST: db_test
     links:
       - db:db
+      - db_test:db_test
     tty: true
 
   # Database Service (Mysql)
@@ -30,5 +32,14 @@ services:
       MYSQL_DATABASE: mintberry
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - /media/leandro/Home/Documents/Projects/docker/mysql-data:/var/lib/mysql 
+      - /media/leandro/Home/Documents/Projects/docker/mysql-data:/var/lib/mysql
+
+  # Database Service (Mysql)
+  db_test:
+    image: postgres:13.0-alpine
+    ports:
+    - "3308:3306"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root 
   

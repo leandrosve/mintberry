@@ -60,7 +60,7 @@ const TaskDetail = ({
             {title}
           </Title>
           <div className="is-align-self-flex-start">
-          <TaskStatus status={status} className="ml-3" />
+          <TaskStatus status={status} className="ml-3"  />
           </div>
         </LevelLeft>
         <LevelRight 
@@ -86,11 +86,12 @@ const TaskDetail = ({
         {t("expiracyDate")}: {moment(expiresAt).format("LLL")}
       </div>
 
-      <Level>
+      <Level isMobile={true}>
         <LevelLeft>
           <TaskActions taskId={id} status={status} />
         </LevelLeft>
         <LevelRight>
+          <EditTaskButton id={id}/>
           <DeleteTaskButton id={id} />
         </LevelRight>
       </Level>

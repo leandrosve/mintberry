@@ -23,7 +23,7 @@ const Dialog = ({ handleCancel, handleAccept, isOpen,  message }) => {
         <ModalCard style={{ margin: "auto" , maxWidth:"600px"}}>
           <ModalCardBody>
             {message}
-            <Level>
+            <Level isMobile>
               <LevelLeft />
               <LevelRight>              
                 <LevelItem>

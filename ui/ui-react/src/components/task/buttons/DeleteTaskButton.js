@@ -12,6 +12,7 @@ const DeleteTaskButton = ({ id }) => {
   return (
     <IconButton
       isColor="black"
+      className="m-1"
       data-tip={t("actions.delete")}
       isOutlined
       onClick={(e) => {

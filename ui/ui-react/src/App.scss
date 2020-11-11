@@ -2,7 +2,6 @@
 // Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
-
 $secondary:#eb7dd4;
 $secondary-invert:#fff;
 
@@ -24,6 +23,7 @@ $pagination-current-border-color: $primary;
 
 @import "../node_modules/bulma/bulma.sass";
 
+.navbar-menu.is-active { position: absolute; left:5px;width: 40%; } 
 
 html, body{
   height:100%;

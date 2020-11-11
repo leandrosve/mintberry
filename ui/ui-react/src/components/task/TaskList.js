@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Container } from "bloomer/lib/layout/Container";
 import TaskCard from "./TaskCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,10 +26,7 @@ import { selectIsRequestLoading } from "../../redux/reducers";
 import Spinner from "../util/Spinner";
 import Pagination from "../util/Pagination";
 
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const concerns = [DELETE_TASK_REQUEST, ADD_TASK_REQUEST];
 const TaskList = () => {
@@ -49,12 +46,22 @@ const TaskList = () => {
     setCurrentPage(1);
     console.log(filter);
   }, [filter]);
+
+  const viewRef = useRef(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (tasks.length > 0 && viewRef.current)
+        viewRef.current.scrollIntoView({block: "start", behavior:"smooth"});
+    }, 700);
+  }, [filter, viewRef, tasks.length]);
   return (
     <Container>
+      <div ref={viewRef}/>
       <Title>{t("tasks")}</Title>
       <Level>
         <LevelLeft>
-          <TaskFilter />
+          <TaskFilter/>
         </LevelLeft>
         <LevelRight>
           <Button onClick={() => dispatch(openTaskForm())}>
@@ -68,12 +75,10 @@ const TaskList = () => {
       {!loading && tasks.length === 0 && (
         <Subtitle className="m-3">{t("noTasks")}</Subtitle>
       )}
+    
       <TransitionGroup className="fade">
-        <>
         {!loading &&
-          tasks
-            .slice((currentPage - 1) * 5, currentPage * 5)
-            .map((task) => 
+          tasks.slice((currentPage - 1) * 5, currentPage * 5).map((task) => (
             <CSSTransition
               key={task.id}
               in={true}
@@ -82,10 +87,11 @@ const TaskList = () => {
               classNames="fade"
             >
               <TaskCard key={task.id} id={task.id} />
-              </CSSTransition>)}
-          </>
-          </TransitionGroup>
+            </CSSTransition>
+          ))}
+      </TransitionGroup>
       <Pagination
+        className="mt-4"
         pageCount={Math.ceil(tasks.length / 5)}
         currentPage={currentPage}
         handleClick={handlePageClick}

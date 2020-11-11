@@ -32,51 +32,50 @@ const TaskCard = ({ id }) => {
     startedAt,
     finishedAt,
     expiresAt,
-  } = useSelector((state) => selectTaskById(state, id));
+  } = useSelector((state) => selectTaskById(state, id) || {});
   if (status === FINISHED && !finishedAt) console.log(id);
   return (
-    <Card style={{ margin: "auto"}} className="mb-2 mt-2">
-      <CardContent onClick={() => dispatch(openTaskDetail(id))}>
-        <Media>
-          <MediaContent>
-            <Level>
-              <LevelLeft
-                style={{ cursor: "pointer" }}
-                
-              >
-                <TaskAvatar src={image || placeholderImage} alt={title} />
-                <FlexBox isColumn>
-                  <Title isSize="4" className="m-0">
-                    {title} <TaskStatus status={status} />
-                  </Title>
-                  {status === FINISHED && (
-                    <FinishedInfo
-                      startedAt={startedAt}
-                      finishedAt={finishedAt}
-                    />
-                  )}
-                  {![FINISHED, STOPPED].includes(status) && (
-                    <>
-                      <ExpiracyClock date={expiresAt} /> <br />
-                    </>
-                  )}
-                  {description}
-                </FlexBox>
-              </LevelLeft>
-              <LevelRight style={{ display: "flex", justifyContent: "center" }}>
-                <TaskActions status={status} taskId={id} />
-                <DeleteTaskButton className="m-1" id={id} />
-              </LevelRight>
-            </Level>
-          </MediaContent>
-        </Media>
-      </CardContent>
-    </Card>
+      <Card style={{ margin: "auto" }} className="mb-2 mt-2">
+        <CardContent onClick={() => dispatch(openTaskDetail(id))}>
+          <Media>
+            <MediaContent>
+              <Level>
+                <LevelLeft style={{ cursor: "pointer" }}>
+                  <TaskAvatar src={image || placeholderImage} alt={title} />
+                  <FlexBox isColumn>
+                    <Title isSize="4" className="m-0">
+                      {title} <TaskStatus status={status} />
+                    </Title>
+                    {status === FINISHED && (
+                      <FinishedInfo
+                        startedAt={startedAt}
+                        finishedAt={finishedAt}
+                      />
+                    )}
+                    {![FINISHED, STOPPED].includes(status) && (
+                      <>
+                        <ExpiracyClock date={expiresAt} /> <br />
+                      </>
+                    )}
+                    {description}
+                  </FlexBox>
+                </LevelLeft>
+                <LevelRight
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <TaskActions status={status} taskId={id} />
+                  <DeleteTaskButton className="m-1" id={id} />
+                </LevelRight>
+              </Level>
+            </MediaContent>
+          </Media>
+        </CardContent>
+      </Card>
   );
 };
 
 TaskCard.propTypes = {
-  id: PropTypes.number.isRequired
+  id: PropTypes.number.isRequired,
 };
 
 export default React.memo(TaskCard);
