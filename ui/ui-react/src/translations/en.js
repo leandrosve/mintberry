@@ -52,6 +52,7 @@ export default {
       signup: "Signed up succesfully. Please log in!",
       taskDelete: "Task was successfully deleted!",
       taskAdd: "Task was successfully added!",
+      taskEdit: "Task was succesfully updated!",
     },
     error:{
       notFound:"Not found",
@@ -64,6 +65,7 @@ export default {
       add: "Add",
       taskAdd: "Add task",
       taskEdit: "Edit task",
+      taskRestart: "Restart task {{taskName}}",
       imageUpload: "Upload image",
       avatarChange: "Change avatar",
       start: "Start",

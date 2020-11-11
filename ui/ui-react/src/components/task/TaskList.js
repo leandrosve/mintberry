@@ -29,6 +29,10 @@ import Pagination from "../util/Pagination";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const concerns = [DELETE_TASK_REQUEST, ADD_TASK_REQUEST];
+
+const TASKS_PER_PAGE = 5;
+
+const getPageCount = (tasksLength) => Math.ceil(tasksLength / TASKS_PER_PAGE);
 const TaskList = () => {
   const tasks = useSelector((state) => selectVisibleTasks(state) || []);
   const filter = useSelector((state) => selectTasksVisibilityFilter(state));
@@ -42,6 +46,13 @@ const TaskList = () => {
   const handlePageClick = useCallback((page) => setCurrentPage(page), [
     setCurrentPage,
   ]);
+
+  useEffect(()=>{
+    const lastPage=getPageCount(tasks.length)
+    if(currentPage > lastPage)
+      setCurrentPage(lastPage)
+  },[tasks.length, currentPage, setCurrentPage])
+
   useEffect(() => {
     setCurrentPage(1);
     console.log(filter);
@@ -78,7 +89,7 @@ const TaskList = () => {
     
       <TransitionGroup className="fade">
         {!loading &&
-          tasks.slice((currentPage - 1) * 5, currentPage * 5).map((task) => (
+          tasks.slice((currentPage - 1) * TASKS_PER_PAGE, currentPage * TASKS_PER_PAGE).map((task) => (
             <CSSTransition
               key={task.id}
               in={true}
@@ -92,7 +103,7 @@ const TaskList = () => {
       </TransitionGroup>
       <Pagination
         className="mt-4"
-        pageCount={Math.ceil(tasks.length / 5)}
+        pageCount={getPageCount(tasks.length)}
         currentPage={currentPage}
         handleClick={handlePageClick}
       />

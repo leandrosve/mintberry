@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import { openDialog } from "./dialog";
-import { closeModal } from "./modal";
+import { closeModal, openTaskDetail } from "./modal";
 import API from "../../api";
 const {
   DELETE_TASK_SUCCESS,
@@ -22,7 +22,7 @@ const {
 export const fetchTasks = () => {
   return (dispatch) => {
     dispatch(fetchTasksRequest());
-    API.get("/tasks").then(({ data }) => dispatch(fetchTasksSuccess(data))).catch(err => fetchTasksFailure(err));
+    API.get("/tasks").then(({ data }) => dispatch(fetchTasksSuccess(data))).catch(err => dispatch(fetchTasksFailure(err)));
   };
 };
 
@@ -85,6 +85,20 @@ const changeTaskStatus = (taskId, action) => {
   };
 }
 
+
+export const editTask = (task = {}) => {
+  return async (dispatch) => {
+    try {
+      dispatch(editTaskRequest());
+      const {data} = await API.patch(`/tasks/${task.id}`, {...task})
+      dispatch(editTaskSuccess(data));
+      dispatch(openTaskDetail(task.id));
+    } catch (error) {
+      dispatch(editTaskFailure(error || {message:"error.taskStatus"}))
+    }
+  };
+}
+
 const editTaskRequest = () => ({
   type: EDIT_TASK_REQUEST,
 })
@@ -93,6 +107,7 @@ const editTaskSuccess = (task) => ({
   payload: {
     task,
   },
+  successMessage:"success.taskEdit"
 });
 
 const editTaskFailure = (error) => ({

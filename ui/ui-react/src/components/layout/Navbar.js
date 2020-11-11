@@ -71,18 +71,18 @@ const Navbar = ({ isLoggedIn = false , username}) => {
                 <Icon className="fas fa-user mr-3"/>
                 {`${username}`}
               </NavbarItem>
-              <NavbarItem href="#logout" onClick={()=> dispatch(logout())}>{t("logout")}</NavbarItem>
+              <NavbarItem className="navbar-link is-arrowless" onClick={()=> dispatch(logout())}>{t("logout")}</NavbarItem>
             </>
           ) : (
             <>
               <NavbarItem
-                href="#login"
+                className="navbar-link is-arrowless"
                 onClick={() => dispatch(openLoginForm())}
               >
                 {t("login")}
               </NavbarItem>
               <NavbarItem
-                href="#signup"
+                className="navbar-link is-arrowless"
                 onClick={() => dispatch(openRegisterForm())}
               >
                 {t("signup")}

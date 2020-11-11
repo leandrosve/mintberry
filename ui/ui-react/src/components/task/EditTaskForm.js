@@ -14,10 +14,13 @@ import { Level } from "bloomer/lib/components/Level/Level";
 import { LevelRight } from "bloomer/lib/components/Level/LevelRight";
 import DateTimeField from "../util/DateTimeField";
 import { useDispatch, useSelector } from "react-redux";
-import { addTask } from "../../redux/actions/task";
+import { editTask } from "../../redux/actions/task";
 import imageList from "./imageList";
 import { selectTaskById } from "../../redux/reducers";
 import { openTaskDetail } from "../../redux/actions/modal";
+import { EDIT_TASK_REQUEST } from "../../redux/actions/types";
+import NotificationContainer from "../../containers/NotificationContainer";
+import { isEmpty } from "lodash";
 
 const EditTaskForm = ({id}) => {
   const task = useSelector(state=>selectTaskById(state, id)|| {});
@@ -28,6 +31,7 @@ const EditTaskForm = ({id}) => {
   return (
     <Container>
       <Title>{t("actions.taskEdit")}</Title>
+      <NotificationContainer onlyErrors concerns={[EDIT_TASK_REQUEST]}/>
       <Formik
         validateOnChange
         validateOnMount
@@ -35,7 +39,7 @@ const EditTaskForm = ({id}) => {
           title: task.title,
           description: task.description,
           image: task.image,
-          expiresAt: task.expiresAt,
+          expiresAt: task.expiresAt ? new Date(task.expiresAt) : null,
         }}
         validationSchema={Yup.object({
           title: Yup.string().required(t("fields.validation.required")),
@@ -48,12 +52,12 @@ const EditTaskForm = ({id}) => {
         })}
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {         
-            dispatch(addTask(values));
+            dispatch(editTask({...values, id}));
             setSubmitting(false);
           }, 400);
         }}
       >
-        {({ setFieldValue, isValid }) => (
+        {({ setFieldValue, isValid, dirty}) => (
           <Form>
             <Control>
               <TaskAvatar src={avatar} alt="avatar" />
@@ -83,7 +87,7 @@ const EditTaskForm = ({id}) => {
                 <Button className="mr-2" isColor="info" onClick={()=>dispatch(openTaskDetail(id))}>
                   {t("confirmation.cancel")}
                 </Button>
-                <Button isColor="primary" disabled={!isValid} type="submit">
+                <Button isColor="primary" disabled={!isValid || !dirty} type="submit">
                   {t("actions.save")}
                 </Button>
               </LevelRight>

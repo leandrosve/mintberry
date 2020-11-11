@@ -1,7 +1,6 @@
 import axios from "axios";
 import i18next from "i18next";
 import {
-  refreshToken,
   refreshTokenFailure,
   refreshTokenSuccess,
 } from "./redux/actions/session";
@@ -42,7 +41,6 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(
   (res) => res,
   (err) => {
-    console.log({ err });
     if (err && err.response) {
       return Promise.reject(err.response.data && err.response.data.error);
     }

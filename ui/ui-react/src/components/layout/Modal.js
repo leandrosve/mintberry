@@ -23,7 +23,7 @@ const Modal = ({
     ReactTooltip.rebuild();
   },[]);
   return (
-    <BulmaModal isActive={isOpen}>
+    <BulmaModal isActive={isOpen} onClick={e=>e.stopPropagation()}>
       <ModalBackground onClick={handleClose}/>
      
         <ModalCard style={{ margin: "auto", ...style }}>

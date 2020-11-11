@@ -98,3 +98,11 @@ $loader-thickness: 0.3em;
     opacity: 0;
   }
 
+  .react-calendar {
+    position:static;
+    z-index: 1200;
+  }
+
+  .react-datetime-picker__calendar{
+    position: relative;
+  }

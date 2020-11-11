@@ -19,6 +19,7 @@ import TaskStatus from "./TaskStatus";
 import { FINISHED, STOPPED } from "./states";
 import FinishedInfo from "./FinishedInfo";
 import { selectTaskById } from "../../redux/reducers";
+import RestartTaskButton from "./buttons/RestartTaskButton";
 
 const placeholderImage =
   "https://www.freevector.com/uploads/vector/preview/28383/small_1x_Time_backgrounds_vector_3.jpg";
@@ -64,6 +65,7 @@ const TaskCard = ({ id }) => {
                   style={{ display: "flex", justifyContent: "center" }}
                 >
                   <TaskActions status={status} taskId={id} />
+                  {status === FINISHED && <RestartTaskButton className="m-1" id={id}/>}
                   <DeleteTaskButton className="m-1" id={id} />
                 </LevelRight>
               </Level>

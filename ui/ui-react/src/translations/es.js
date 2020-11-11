@@ -53,6 +53,7 @@ export default {
       signup: "Registro exitoso. ¡Inicia sesión!",
       taskDelete: "La tarea se eliminó correctamente!",
       taskAdd: "La tarea se agregó correctamente!",
+      taskEdit: "La tarea se modificó correctamente!",
     },
     error:{
       notFound:"No encontrado",
@@ -65,6 +66,7 @@ export default {
       add: "Añadir",
       taskAdd: "Añadir una tarea",
       taskEdit: "Editar tarea",
+      taskRestart: "Volver a iniciar la tarea {{taskName}}",
       imageUpload: "Subir una imagen",
       avatarChange: "Cambiar imágen",
       start: "Comenzar",

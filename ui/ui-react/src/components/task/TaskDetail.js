@@ -21,6 +21,9 @@ import EditTaskButton from "./buttons/EditTaskButton";
 import imageList from "./imageList";
 import ImagePicker from "../util/ImagePicker";
 import FinishedInfo from "./FinishedInfo";
+import NotificationContainer from "../../containers/NotificationContainer";
+import { EDIT_TASK_REQUEST } from "../../redux/actions/types";
+import RestartTaskButton from "./buttons/RestartTaskButton";
 
 const placeholderImage = "https://www.freevector.com/uploads/vector/preview/28383/small_1x_Time_backgrounds_vector_3.jpg";
 
@@ -39,8 +42,9 @@ const TaskDetail = ({
   const [openImagePicker, setOpenImagePicker] = useState(false);
   return (
     <Container>
-      <Level className="m-0">
-        <LevelLeft>
+      <NotificationContainer concerns={[EDIT_TASK_REQUEST]}/>
+      <Level  className="m-0">
+        <LevelLeft style={{display:"flex"}} className="is-justify-content-center" >
           <TaskAvatar
             style={{ cursor: "pointer" }}
             data-tip={t("actions.avatarChange")}
@@ -56,25 +60,27 @@ const TaskDetail = ({
             images={imageList}
             isOpen={openImagePicker}
           />
-          <Title style={{ display: "inline-block", maxWidth:"300px", wordWrap:"ellipsis"}} className="m-0">
-            {title}
-          </Title>
-          <div className="is-align-self-flex-start">
-          <TaskStatus status={status} className="ml-3"  />
-          </div>
+          
+          
         </LevelLeft>
         <LevelRight 
-          className="is-align-self-flex-start">
-            <div>
+           style={{display:"flex", flex:1}} className="is-justify-content-start">
+            <Title style={{ display: "flex",  wordWrap:"ellipsis"}} className="m-0 ">
+            {title}
+          </Title>
+        </LevelRight>
+      </Level>
+      <div className="is-align-self-flex-start">
+          <TaskStatus status={status} className="ml-3"  />
+          
+       
           {status === FINISHED ? (
             <FinishedInfo startedAt={startedAt} finishedAt={finishedAt} />
           ) : status !== STOPPED &&
             <ExpiracyClock date={expiresAt} />
           }
             </div>
-        </LevelRight>
-      </Level>
-      <div className="block mb-2">
+      <div className="block m-2">
         <Subtitle isSize="5">{description}</Subtitle>
       </div>
       <div className="block m-0">
@@ -91,6 +97,7 @@ const TaskDetail = ({
           <TaskActions taskId={id} status={status} />
         </LevelLeft>
         <LevelRight>
+          <RestartTaskButton id={id}/>
           <EditTaskButton id={id}/>
           <DeleteTaskButton id={id} />
         </LevelRight>
