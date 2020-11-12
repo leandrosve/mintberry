@@ -9,7 +9,7 @@ const TasksContainer = () => {
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(fetchTasks());
-        return ()=>{ReactTooltip.hide()};
+        ReactTooltip.rebuild();
     })
     return (
         <TaskList/>

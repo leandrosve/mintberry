@@ -1,0 +1,26 @@
+FROM node:14.13.1-alpine as build
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY . ./
+
+ARG DB_HOST
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DB_NAME
+ARG DB_TEST_HOST
+
+ENV DB_HOST=${DB_HOST}
+ENV DB_USER=${DB_USER}
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DB_NAME=${DB_NAME}
+ENV DB_TEST_HOST=${DB_TEST_HOST}
+
+
+ENTRYPOINT ["sh","./entrypoint.sh"]
+
+EXPOSE 8080

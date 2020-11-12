@@ -1,29 +1,42 @@
-# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
-
 version: '3.7'
-
+#Run with docker-compose build --build-arg HOST_URL=192.168.0.233 
+#In linux you can do docker-compose build --build-arg HOST_URL=$(hostname -I | cut -f1 -d " ") 
 # Define services
 services:
-  # App backend servicee
-  app:
-    image: node:14.13.1-alpine
+  # App backend service
+  app-server:
+    # Configuration for building the docker image for the backend service
+    build:
+      context: backend # Use an image built from the specified dockerfile in the `polling-app-server` directory.
+      dockerfile: Dockerfile
     ports:
-        - 8081:8080
-        - 3031:3030
-    volumes:
-      - ./:/app/
-    environment: 
+      - "8081:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always
+    depends_on: 
+      - db 
+    links:
+      - db:db
+    environment: # Pass environment variables to the service
       DB_HOST: db
       DB_USER: root
       DB_PASSWORD: root
       DB_NAME: mintberry
       DB_TEST_HOST: db_test
-    links:
-      - db:db
-      - db_test:db_test
-    tty: true
 
-  # Database Service (Mysql)
+  # Frontend Service 
+  app-client:
+    build:
+      context: ui/ui-react # Use an image built from the specified dockerfile in the `polling-app-client` directory.
+      dockerfile: Dockerfile
+      #args:
+        #HOST_URL: 192.168.0.226
+    ports:
+      - "3031:3030" # Map the exposed port 80 on the container to port 9090 on the host machine
+    restart: always
+    depends_on:
+      - app-server
+
+  # Database service
   db:
     image: mysql:5.7
     ports:
@@ -32,14 +45,9 @@ services:
       MYSQL_DATABASE: mintberry
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - /media/leandro/Home/Documents/Projects/docker/mysql-data:/var/lib/mysql
-
-  # Database Service (Mysql)
-  db_test:
-    image: postgres:13.0-alpine
-    ports:
-    - "3308:3306"
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: root 
+      - db-data:/var/lib/mysql
+     
   
+# Volumes
+volumes:
+  db-data:

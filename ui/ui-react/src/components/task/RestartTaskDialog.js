@@ -17,9 +17,7 @@ import { addTask } from "../../redux/actions/task";
 const RestartTaskDialog = ({ id = -1, handleClose }) => {
   const task = useSelector((state) => selectTaskById(state, id) || {});
   const { t } = useTranslation();
-  console.log("asdasdaaa");
   const dispatch = useDispatch();
-  console.log({ task });
   return (
     <>
       <Modal
@@ -66,7 +64,7 @@ const RestartTaskDialog = ({ id = -1, handleClose }) => {
                 <Level isMobile>
                   <LevelLeft />
                   <LevelRight>
-                    <Button isColor="info" onClick={handleClose}>
+                    <Button isColor="info" className="mr-2" onClick={handleClose}>
                       {t("confirmation.cancel")}
                     </Button>
                     <Button isColor="primary" type="submit" disabled={!isValid}>

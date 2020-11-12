@@ -78,13 +78,19 @@ const changeTaskStatus = (taskId, action) => {
     try {
       dispatch(editTaskRequest());
       const {data} = await API.post(`/tasks/${taskId}/${action}`)
-      dispatch(editTaskSuccess(data));
+      dispatch(changeTaskStatusSuccess(data));
     } catch (error) {
       dispatch(editTaskFailure(error || {message:"error.taskStatus"}))
     }
   };
 }
 
+const changeTaskStatusSuccess = (task)=>({
+  type: EDIT_TASK_SUCCESS,
+  payload: {
+    task,
+  },
+})
 
 export const editTask = (task = {}) => {
   return async (dispatch) => {

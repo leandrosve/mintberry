@@ -20,7 +20,6 @@ import { selectTaskById } from "../../redux/reducers";
 import { openTaskDetail } from "../../redux/actions/modal";
 import { EDIT_TASK_REQUEST } from "../../redux/actions/types";
 import NotificationContainer from "../../containers/NotificationContainer";
-import { isEmpty } from "lodash";
 
 const EditTaskForm = ({id}) => {
   const task = useSelector(state=>selectTaskById(state, id)|| {});

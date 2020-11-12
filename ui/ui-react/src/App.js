@@ -16,7 +16,6 @@ function App() {
   const isAuthenticated = useSelector((state) =>
     selectIsUserAuthenticated(state)
   );
-
   return (
     <div style={{minHeight:"100vh", display:"flex"}} className="is-flex-direction-column">
       <DialogContainer />

@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useState } from "react";
 import PropTypes from "prop-types";
 import { Label } from "bloomer/lib/elements/Form/Label";
 import { Control } from "bloomer/lib/elements/Form/Control";
@@ -6,11 +6,10 @@ import { Field as FormikField, useField } from "formik";
 import { Field } from "bloomer/lib/elements/Form/Field/Field";
 import { Help } from "bloomer/lib/elements/Form/Help";
 import useFieldDecorations from "../hooks/useFieldDecorations";
-import i18next from "i18next";
 import { useTranslation } from "react-i18next";
 
 const TextField = ({ label, type, name, placeholder, help, isQuiet=false }) => {
-  const [field, meta, helpers] = useField(name);
+  const meta= useField(name)[1];
   const [isActive, setIsActive] = useState(false);
   const [severity, error] = useFieldDecorations(meta, isActive)
   const {t} = useTranslation();

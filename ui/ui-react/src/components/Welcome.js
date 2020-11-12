@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container } from "bloomer/lib/layout/Container";
 import { Title } from "bloomer/lib/elements/Title";
 import { Image } from "bloomer/lib/elements/Image";
@@ -16,6 +16,7 @@ import {
 import { Tag } from "bloomer/lib/elements/Tag";
 import { setVisibilityFilter } from "../redux/actions/task";
 import { FINISHED } from "./task/states";
+import ReactTooltip from "react-tooltip";
 
 const Welcome = () => {
   const { t } = useTranslation();
@@ -24,7 +25,9 @@ const Welcome = () => {
   const username = useSelector((state) => selectUsername(state),);
   const activeCount= useSelector((state) => selectActiveTasksCount(state));
   const finishedCount= useSelector((state) =>selectFinishedTasksCount(state));
-  
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  });
   return (
     <Hero isColor="primary">
       <HeroBody className="p-2">

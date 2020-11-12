@@ -9,7 +9,7 @@ import createAuthRefreshInterceptor from "axios-auth-refresh";
 import { selectRefreshToken } from "./redux/reducers";
 
 const instance = axios.create({
-  baseURL: `http://${process.env.HOST_URL || "192.168.0.226"}:8081/api`,
+  baseURL: `http://${process.env.REACT_APP_HOST_URL || "localhost"}:8081/api`,
 });
 
 const refreshAuth = (failedRequest) => {
@@ -43,8 +43,11 @@ instance.interceptors.response.use(
   (err) => {
     if (err && err.response) {
       return Promise.reject(err.response.data && err.response.data.error);
+    }else{
+      console.log("network error");
+      return Promise.reject("error.network");
     }
-    return Promise.reject(err);
+    
   }
 );
 

@@ -57,6 +57,7 @@ export default {
     },
     error:{
       notFound:"No encontrado",
+      network:"Error de red, no pudimos conectar con nuestros servidores",
       resourceNotFound: "Lo sentimos, no pudimos encontrar el recurso solicitado.",
       taskAdd:"No se ha podido agregar la tarea.",
       taskStatus:"No se ha podido cambiar el estado de la tarea.",

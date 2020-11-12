@@ -27,8 +27,9 @@ import Spinner from "../util/Spinner";
 import Pagination from "../util/Pagination";
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import ReactTooltip from "react-tooltip";
 
-const concerns = [DELETE_TASK_REQUEST, ADD_TASK_REQUEST];
+const concerns = [DELETE_TASK_REQUEST, ADD_TASK_REQUEST, FETCH_TASKS_REQUEST];
 
 const TASKS_PER_PAGE = 5;
 
@@ -55,7 +56,7 @@ const TaskList = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-    console.log(filter);
+    ReactTooltip.rebuild();
   }, [filter]);
 
   const viewRef = useRef(null);

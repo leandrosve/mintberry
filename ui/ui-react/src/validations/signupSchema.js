@@ -1,7 +1,5 @@
 import * as Yup from "yup";
-import i18n from "../i18n";
 
-const t = (name) => i18n.t(name);
 let schema = Yup.object({
   username: Yup.string()
     .required("fields.validation.required")

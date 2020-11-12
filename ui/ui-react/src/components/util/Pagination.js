@@ -48,6 +48,10 @@ const Pagination = ({ pageCount, currentPage, handleClick, ...params }) => {
   );
 };
 
-Pagination.propTypes = {};
+Pagination.propTypes = {
+  pageCount: PropTypes.number.isRequired, 
+  currentPage: PropTypes.number.isRequired, 
+  handleClick: PropTypes.func.isRequired,
+};
 
 export default Pagination;

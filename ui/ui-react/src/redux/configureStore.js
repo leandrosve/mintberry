@@ -11,8 +11,8 @@ export default function configureStore() {
 
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
-  //const enhancers = [middlewareEnhancer];
-  const enhancers = [middlewareEnhancer, composeWithDevTools()];
+  const enhancers = [middlewareEnhancer];
+  //const enhancers = [middlewareEnhancer, composeWithDevTools()];
   const composedEnhancers = compose(...enhancers);
 
   const initialState = {session:loadSessionInitialState()}

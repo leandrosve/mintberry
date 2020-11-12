@@ -56,6 +56,7 @@ export default {
     },
     error:{
       notFound:"Not found",
+      network:"Network error. Couldn't connect to our servers.",
       resourceNotFound: "Sorry, we couldn't find the requested resource",
       taskAdd:"There was an error while trying to create the task.",
       taskStatus:"There was an error while trying to change the task status.",
