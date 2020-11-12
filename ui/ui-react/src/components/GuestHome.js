@@ -5,28 +5,27 @@ import SignupForm from "./user/SignupForm";
 import { Card } from "bloomer/lib/components/Card/Card";
 import { useSelector } from 'react-redux';
 import { selectModalContentType, selectModalIsOpen } from '../redux/reducers';
+import { Level } from 'bloomer/lib/components/Level/Level';
+import { LevelLeft } from 'bloomer/lib/components/Level/LevelLeft';
+import { LevelRight } from 'bloomer/lib/components/Level/LevelRight';
  
 const GuestHome = () => {
     const isLoginModalOpen = useSelector(state=>selectModalContentType(state) === "LoginForm" && selectModalIsOpen(state))
     const isSignupModalOpen = useSelector(state=>selectModalContentType(state) === "SignupForm" && selectModalIsOpen(state))
-    return (
-        <Container>   
-          <div className="tile is-ancestor">
-            <div className="tile is-horizontal ">
-              <div className="tile  is-vertical">
-                <Card className="p-5 m-5">
+    return (       
+          <Level className="is-justify-content-center">
+            <LevelLeft>
+            <Card className="p-2">
                   <LoginForm showSignupSuccess={false} showNotifications={!isLoginModalOpen}/>
                 </Card>
-              </div>
-              <div className="tile is-vertical ">
-                <Card className="p-5 m-5">
+            </LevelLeft>
+            <LevelRight>
+            <Card className="p-2">
                   {" "}
                   <SignupForm showNotifications={!isSignupModalOpen}/>
                 </Card>
-              </div>
-            </div>
-          </div>
-          </Container>
+            </LevelRight>
+          </Level>                               
     );
 }
  

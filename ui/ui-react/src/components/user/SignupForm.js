@@ -72,6 +72,7 @@ const SignupForm = ({showNotifications=true}) => {
                   <Button
                     isColor="info"
                     onClick={() => dispatch(openLoginForm())}
+                    className="m-2"
                   >
                     {t("links.login")}
                   </Button>
@@ -82,6 +83,7 @@ const SignupForm = ({showNotifications=true}) => {
                   <Button
                     isColor="primary"
                     type="submit"
+                    className="m-2"
                     disabled={!canSubmit || !isValid}
                   >
                     {t("signup")}
