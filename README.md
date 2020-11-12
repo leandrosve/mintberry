@@ -6,8 +6,8 @@
  
 Aplicación ToDoList demo realizada con el objetivo de practicar y aprender nuevas tecnologías. 
 
-##Características
-###Frontend
+## Características
+### Frontend
 Desarrollado en Node JS con React JS como framework.
 - Manejo de estado con Redux.
 - Bulma como framework CSS.
@@ -17,7 +17,7 @@ Desarrollado en Node JS con React JS como framework.
 - Internacionalización inglés/español con i18next.
 - Autenticación mediante JWT tokens.
 
-###Backend
+### Backend
 Desarrollado en Node JS con Express como framework.
 - Base de datos MySQL, y Postgres para los tests.
 - Utiliza Sequelize como ORM y para migraciones.
@@ -26,13 +26,13 @@ Desarrollado en Node JS con Express como framework.
 - Internacionalización inglés/español con i18next.
 - Autenticación mediante JWT tokens.
 
-###Instrucciones
-Al finalizar la instalación podrás acceder a la aplicación desde cualquier navegador con la url  http://localhost:3031/ o http://{tuipprivada}:3031/
+### Instrucciones
+Al finalizar la instalación podrás acceder a la aplicación desde cualquier navegador con la url  http://localhost:3031/ o http://tuipprivada:3031/
 
-####Docker Compose
+#### Docker Compose
 Instalar Docker Compose: https://docs.docker.com/compose/install/
 
-#####Paso 1: Construir containers
+##### Paso 1: Construir containers
 `docker-compose build`
 
 Si quieres poder acceder a la app desde otro dispositivo de la red (reemplazar IP_PRIVADA por su valor real):
@@ -45,7 +45,7 @@ En linux, puedes automatizar el comando anterior:
 
 `docker-compose build --build-arg HOST_URL=$(hostname -I | cut -f1 -d " ") `
 
-#####Paso 2: Ejecutar containers
+##### Paso 2: Ejecutar containers
 `docker-compose up`
 
 Para correrlos en segundo plano:
