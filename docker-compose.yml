@@ -16,13 +16,6 @@ services:
       - db 
     links:
       - db:db
-    environment: # Pass environment variables to the service
-      DB_HOST: db
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_NAME: mintberry
-      DB_TEST_HOST: db_test
-
   # Frontend Service 
   app-client:
     build:
