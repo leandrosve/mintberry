@@ -90,7 +90,8 @@ const TaskList = () => {
     
       <TransitionGroup className="fade">
         {!loading &&
-          tasks.slice((currentPage - 1) * TASKS_PER_PAGE, currentPage * TASKS_PER_PAGE).map((task) => (
+          tasks.slice((currentPage - 1) * TASKS_PER_PAGE, (currentPage +1 )* TASKS_PER_PAGE).map((task) => {
+            return(
             <CSSTransition
               key={task.id}
               in={true}
@@ -100,7 +101,7 @@ const TaskList = () => {
             >
               <TaskCard key={task.id} id={task.id} />
             </CSSTransition>
-          ))}
+          )})}
       </TransitionGroup>
       <Pagination
         className="mt-4"
