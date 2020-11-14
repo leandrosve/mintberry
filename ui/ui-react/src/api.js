@@ -44,10 +44,8 @@ instance.interceptors.response.use(
     if (err && err.response) {
       return Promise.reject(err.response.data && err.response.data.error);
     }else{
-      console.log("network error");
-      return Promise.reject("error.network");
-    }
-    
+      return Promise.reject({message:"error.network"});
+    }  
   }
 );
 

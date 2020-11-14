@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container } from "bloomer/lib/layout/Container";
 import { Title } from "bloomer/lib/elements/Title";
-import { Button } from "bloomer/lib/elements/Button";
+import  Button  from "../util/Button";
 import { Level } from "bloomer/lib/components/Level/Level";
 import { LevelRight } from "bloomer/lib/components/Level/LevelRight";
 import { LevelItem } from "bloomer/lib/components/Level/LevelItem";
@@ -63,9 +63,10 @@ const LoginForm = ({showSignupSuccess = true, showNotifications=true}) => {
                 <LevelItem>
                   <Button
                     isColor="info"
+                    
                     onClick={() => dispatch(openRegisterForm())}
-                  >
-                    {t("links.signup")}
+                  >                
+                    {t("links.signup")}     
                   </Button>
                 </LevelItem>
               </LevelLeft>
@@ -74,6 +75,7 @@ const LoginForm = ({showSignupSuccess = true, showNotifications=true}) => {
                   <Button
                     isColor="primary"
                     type="submit"
+                    className="ml-2" 
                     disabled={!canSubmit || !formik.isValid }
                   >
                     {t("login")}

@@ -1,6 +1,5 @@
 import React from 'react';
 import LoginForm from "./user/LoginForm";
-import { Container } from "bloomer/lib/layout/Container";
 import SignupForm from "./user/SignupForm";
 import { Card } from "bloomer/lib/components/Card/Card";
 import { useSelector } from 'react-redux';
@@ -13,14 +12,14 @@ const GuestHome = () => {
     const isLoginModalOpen = useSelector(state=>selectModalContentType(state) === "LoginForm" && selectModalIsOpen(state))
     const isSignupModalOpen = useSelector(state=>selectModalContentType(state) === "SignupForm" && selectModalIsOpen(state))
     return (       
-          <Level className="is-justify-content-center">
+          <Level className="is-justify-content-center is-align-items-start" style={{margin:"auto", minWidth:"200px"}}>
             <LevelLeft>
-            <Card className="p-2">
+            <Card className="p-2 m-2">
                   <LoginForm showSignupSuccess={false} showNotifications={!isLoginModalOpen}/>
                 </Card>
             </LevelLeft>
             <LevelRight>
-            <Card className="p-2">
+            <Card className="p-2 m-2">
                   {" "}
                   <SignupForm showNotifications={!isSignupModalOpen}/>
                 </Card>

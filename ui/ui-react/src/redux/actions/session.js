@@ -22,8 +22,11 @@ export const logout = () => {
         { refreshToken },
         { skipAuthRefresh: true }
       );
-      dispatch(destroySession());
+     
     } catch (error) {}
+    finally{
+      dispatch(destroySession());
+    }
   };
 };
 
