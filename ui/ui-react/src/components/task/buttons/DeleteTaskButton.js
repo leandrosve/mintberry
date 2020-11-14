@@ -15,9 +15,8 @@ const DeleteTaskButton = ({ id }) => {
       className="m-1"
       data-tip={t("actions.delete")}
       isOutlined
-      onClick={(e) => {
+      onClick={() => {
         dispatch(askDeleteTaskConfirmation(id));
-        e.stopPropagation();
       }}
     >
       <Icon className="fas fa-trash" />
