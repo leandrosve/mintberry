@@ -15,6 +15,6 @@ ENV DB_NAME=mintberry
 ENV DB_TEST_HOST=db_test
 
 
-ENTRYPOINT ["sh", "-C", "./wait-for.sh", "db:3306", "--", "sh","./entrypoint.sh"]
+ENTRYPOINT ["sh", "-C", "./wait-for.sh", "db:3306", "-t", "120", "--", "sh","./entrypoint.sh"]
 
 EXPOSE 8080
